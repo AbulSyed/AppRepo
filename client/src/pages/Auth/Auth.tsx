@@ -12,7 +12,7 @@ const Auth: React.FC = () => {
     // https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
     // below link will navigate user to GitHub signin page
     // then on backend we need to retrieve code and exchange for access token
-    window.location.href='https://github.com/login/oauth/authorize?client_id=74eb3345588e477ad7e1'
+    window.location.href='https://github.com/login/oauth/authorize?client_id=e7913495da0b920cfa5c'
   }
 
   return (

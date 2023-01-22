@@ -1,0 +1,10 @@
+.github-icon {
+  cursor: pointer;
+  transition: all .5s;
+  color: rgb(60, 60, 60);
+  
+  &:hover {
+    color: #000;
+    transform: scale(1.2);
+  }
+}

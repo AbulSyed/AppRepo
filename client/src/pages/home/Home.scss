@@ -1,0 +1,10 @@
+// using scss with Vite (npm add -D sass)
+// https://vitejs.dev/guide/features.html#css-pre-processors
+.my-card {
+  transition: all .8s;
+  
+  &:hover {
+    background: rgb(222, 221, 221);
+    cursor: pointer;
+  }
+}

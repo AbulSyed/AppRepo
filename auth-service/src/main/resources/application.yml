@@ -5,7 +5,7 @@ spring:
   application:
     name: authservice
   datasource:
-    url: jdbc:mysql://localhost:3306/user?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/apprepo?useSSL=false&serverTimezone=UTC
     username: root
     password: my-secret-pw
   jpa:
@@ -24,6 +24,6 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-app:
-  clientId: 74eb3345588e477ad7e1
-  clientSecret: d9979700a204167f82e2e7466bcf5aa6ce47e38c
+github:
+  clientId: e7913495da0b920cfa5c
+  clientSecret: a1dd477837c5a518f1c756cf53601e41840a9419

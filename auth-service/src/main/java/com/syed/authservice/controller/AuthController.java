@@ -19,11 +19,11 @@ public class AuthController {
     }
 
     /**
-     * gets authorization code from url and uses to fetch user and save to database
+     * gets authorization code from url and uses to fetch and save user to database
      * cookie sent to browser with username to then be used to make request to UserController
      * @param code the authorization code sent by GitHub in url
      * @param response the HttpServletResponse containing cookie
-     * @return the redirection React homepage
+     * @return the redirection to the React homepage after authentication
      */
     // url where authorization code will be attached as query parameter in
     @GetMapping("/user/signin/callback")

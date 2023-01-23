@@ -1,6 +1,8 @@
 package com.syed.authservice.controller;
 
 import com.syed.authservice.service.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class AuthController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthService authService;
 
@@ -29,6 +33,8 @@ public class AuthController {
     @GetMapping("/user/signin/callback")
     public RedirectView signin(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {
+        LOGGER.debug("Entering AuthController:signin");
+
         String name = authService.signin(code);
 
         Cookie cookie = new Cookie("loggedIn", name);

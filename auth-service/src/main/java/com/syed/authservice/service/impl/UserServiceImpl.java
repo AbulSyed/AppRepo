@@ -4,6 +4,8 @@ import com.syed.authservice.dto.UserDto;
 import com.syed.authservice.entity.User;
 import com.syed.authservice.repository.UserRepository;
 import com.syed.authservice.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
@@ -29,6 +33,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String getUserByToken(String accessToken) {
+        LOGGER.debug("Entering UserServiceImpl:getUserByToken");
+
         String url = "https://api.github.com/user";
 
         HttpHeaders headers = new HttpHeaders();
@@ -54,6 +60,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void saveUser(UserDto userDto, String accessToken) {
+        LOGGER.debug("Entering UserServiceImpl:saveUser");
+
         User user = new User();
         user.setUsername(userDto.getLogin());
         user.setAvatarUrl(userDto.getAvatar_url());
@@ -71,6 +79,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUserToken(String username, String accessToken) {
+        LOGGER.debug("Entering UserServiceImpl:updateUserToken");
+
         // find user by username and update his token
         User user = userRepository.findByUsername(username);
 
@@ -85,6 +95,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDto getUserByUsername(String username) {
+        LOGGER.debug("Entering UserServiceImpl:getUserByUsername");
+
         User user = userRepository.findByUsername(username);
         return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());
     }

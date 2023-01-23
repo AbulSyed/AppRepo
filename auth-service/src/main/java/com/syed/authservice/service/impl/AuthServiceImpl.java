@@ -2,6 +2,8 @@ package com.syed.authservice.service.impl;
 
 import com.syed.authservice.service.AuthService;
 import com.syed.authservice.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     @Value("${github.clientId}")
     private String clientId;
@@ -33,8 +37,9 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public String signin(String code) {
+        LOGGER.debug("Entering AuthServiceImpl:signin");
+
         String accessToken = getAccessToken(code);
-        System.out.println(accessToken);
         return userService.getUserByToken(accessToken);
     }
 
@@ -44,6 +49,8 @@ public class AuthServiceImpl implements AuthService {
      * @return the access token
      */
     private String getAccessToken(String code) {
+        LOGGER.debug("Entering AuthServiceImpl:getAccessToken");
+
         String url = "https://github.com/login/oauth/access_token";
 
         HttpHeaders headers = new HttpHeaders();
@@ -70,6 +77,8 @@ public class AuthServiceImpl implements AuthService {
      * @return the access token
      */
     private static String extractAccessToken(String str) {
+        LOGGER.debug("Entering AuthServiceImpl:extractAccessToken");
+
         String[] parts = str.split("&");
 
         for (String part : parts) {

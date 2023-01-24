@@ -34,6 +34,9 @@ public class AuthController {
     public RedirectView signin(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {
         LOGGER.debug("Entering AuthController:signin");
+        LOGGER.info("Entering AuthController:signin");
+
+        // add splunk configurations in log4j2-spring.xml
 
         String name = authService.signin(code);
 

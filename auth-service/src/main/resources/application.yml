@@ -15,14 +15,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-logging:
-  level:
-    com:
-      syed:
-        authservice: DEBUG
-  file:
-    name: authservice.log
-
 eureka:
   instance:
     preferIpAddress: true
@@ -35,3 +27,6 @@ eureka:
 github:
   clientId: e7913495da0b920cfa5c
   clientSecret: a1dd477837c5a518f1c756cf53601e41840a9419
+
+pom:
+  version: @project.version@

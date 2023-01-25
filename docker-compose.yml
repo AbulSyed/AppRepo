@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  mysql-service:
+    image: mysql_db:latest
+    build: ./mysql
+    ports:
+      - 3306:3306
+
+  auth-service:
+    image: abulsy3d/auth-service:latest
+    build: ./auth-service
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&serverTimezone=UTC
+    depends_on:
+      - mysql-service
+    restart: always

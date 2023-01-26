@@ -15,6 +15,8 @@ const Home: React.FC = () => {
       </Breadcrumb>
 
       <Divider />
+      
+      <p>{import.meta.env.VITE_SOME_KEY}</p>
 
       <Typography>
         <Title level={3}>What are you looking for?</Title>

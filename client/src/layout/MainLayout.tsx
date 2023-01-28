@@ -13,6 +13,8 @@ import Favourites from '../pages/Favourites/Favourites';
 import MyRepos from '../pages/MyRepos/MyRepos';
 import Auth from '../pages/Auth/Auth';
 import Cookies from 'js-cookie';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchUser } from '../store/user/userSlice';
 
 const { Header, Content, Sider } = Layout;
 
@@ -42,6 +44,12 @@ const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   // cookie sent from backend
   const cookie = Cookies.get('loggedIn');
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.user);
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
 
   return (
     <Layout
@@ -90,8 +98,19 @@ const MainLayout: React.FC = () => {
           }}
         >
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <h1 style={{marginLeft: '20px'}}>Welcome user</h1>
-            <img src='https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png' style={{height: '45px', borderRadius: '5px', display: 'block', margin: '10px 15px'}}  />
+            {
+              cookie && 
+              (
+                <>
+                  <h1 style={{marginLeft: '20px'}}>Welcome {user ? user.login : ''}</h1>
+                  {
+                    user ? 
+                    <img src={user.avatar_url} style={{height: '45px', borderRadius: '5px', display: 'block', margin: '10px 15px'}}  /> : 
+                    <img src='https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png' style={{height: '45px', borderRadius: '5px', display: 'block', margin: '10px 15px'}}  />
+                  }
+                </>
+              )
+            }
           </div>
         </Header>
         <Content style={{ margin: '0 16px' }}>

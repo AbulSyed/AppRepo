@@ -26,7 +26,7 @@ public class UserController {
      * @return the user dto
      */
     @CrossOrigin
-    @GetMapping("/{username}")
+    @GetMapping("/getUser/{username}")
     public UserDto loggedIn(@PathVariable String username) {
         LOGGER.debug("Entering UserController:loggedIn");
 

@@ -95,8 +95,8 @@ const MainLayout: React.FC = () => {
           </div>
         </Header>
         <Content style={{ margin: '0 16px' }}>
-        <Routes>
-        <Route path="/" element={cookie ? <Home /> : <Navigate to="/auth" />} />
+          <Routes>
+            <Route path="/" element={cookie ? <Home /> : <Navigate to="/auth" />} />
             <Route path="/myrepos" element={cookie ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={cookie ? <Favourites /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!cookie ? <Auth /> : <Navigate to="/" />} />

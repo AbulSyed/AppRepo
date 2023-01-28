@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import {
   HomeOutlined,
   StarOutlined,
@@ -12,6 +12,7 @@ import NotFound from '../pages/NotFound/NotFound';
 import Favourites from '../pages/Favourites/Favourites';
 import MyRepos from '../pages/MyRepos/MyRepos';
 import Auth from '../pages/Auth/Auth';
+import Cookies from 'js-cookie';
 
 const { Header, Content, Sider } = Layout;
 
@@ -39,6 +40,8 @@ const MainLayout: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
+  // cookie sent from backend
+  const cookie = Cookies.get('loggedIn');
 
   return (
     <Layout
@@ -46,33 +49,38 @@ const MainLayout: React.FC = () => {
         minHeight: '100vh',
       }}
     >
-      <Affix offsetTop={0} style={{ height: '100%', overflow: 'auto' }}>
-        <Sider
-          breakpoint="md"
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)} style={{
-          height: '100vh',
-        }}>
-          <div
-            style={{
-              height: 32,
-              marginTop: 30,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <img src={logo2} style={{display: 'block', margin: '0 auto'}} alt="" /></div>
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={[window.location.pathname]}
-            mode="inline"
-            items={items}
-            onClick={(item) => navigate(item.key)}
-          />
-        </Sider>
-      </Affix>
+      {
+        // only show sidebar if user is logged in
+        cookie && (
+          <Affix offsetTop={0} style={{ height: '100%', overflow: 'auto' }}>
+            <Sider
+              breakpoint="md"
+              collapsible
+              collapsed={collapsed}
+              onCollapse={(value) => setCollapsed(value)} style={{
+              height: '100vh',
+            }}>
+              <div
+                style={{
+                  height: 32,
+                  marginTop: 30,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <img src={logo2} style={{display: 'block', margin: '0 auto'}} alt="" /></div>
+              <Menu
+                theme="dark"
+                defaultSelectedKeys={[window.location.pathname]}
+                mode="inline"
+                items={items}
+                onClick={(item) => navigate(item.key)}
+              />
+            </Sider>
+          </Affix>
+        )
+      }
       <Layout className="site-layout">
         <Header
           style={{
@@ -88,10 +96,10 @@ const MainLayout: React.FC = () => {
         </Header>
         <Content style={{ margin: '0 16px' }}>
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/myrepos" element={<MyRepos />} />
-            <Route path="/favourites" element={<Favourites />} />
-            <Route path="/auth" element={<Auth />} />
+        <Route path="/" element={cookie ? <Home /> : <Navigate to="/auth" />} />
+            <Route path="/myrepos" element={cookie ? <MyRepos /> : <Navigate to="/auth" />} />
+            <Route path="/favourites" element={cookie ? <Favourites /> : <Navigate to="/auth" />} />
+            <Route path="/auth" element={!cookie ? <Auth /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>

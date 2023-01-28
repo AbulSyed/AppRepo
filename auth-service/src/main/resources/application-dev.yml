@@ -10,5 +10,5 @@ logging:
     com:
       syed:
         authservice: DEBUG
-  file:
-    name: authservice.log
+#  file:
+#    name: authservice.log

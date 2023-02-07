@@ -1,6 +1,7 @@
 package com.syed.authservice.controller;
 
 import com.syed.authservice.service.AuthService;
+import com.syed.authservice.utility.AuthServiceUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +37,8 @@ public class AuthController {
         LOGGER.debug("Entering AuthController:signin");
 
         String name = authService.signin(code);
-
-        Cookie cookie = new Cookie("loggedIn", name);
-        cookie.setMaxAge(60000);
-        cookie.setHttpOnly(false);
-        cookie.setDomain("localhost");
-        cookie.setPath("/");
+        Cookie cookie = AuthServiceUtility.createCookie(
+                "loggedIn", name, 60000, false, "localhost", "/");
         response.addCookie(cookie);
 
         return new RedirectView("http://localhost:3000/");

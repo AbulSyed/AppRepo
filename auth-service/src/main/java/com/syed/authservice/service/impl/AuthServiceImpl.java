@@ -2,6 +2,7 @@ package com.syed.authservice.service.impl;
 
 import com.syed.authservice.service.AuthService;
 import com.syed.authservice.service.UserService;
+import com.syed.authservice.utility.AuthServiceUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,27 +67,9 @@ public class AuthServiceImpl implements AuthService {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return extractAccessToken(response.getBody());
+            return AuthServiceUtility.extractAccessToken(response.getBody());
         }
         return null;
     }
 
-    /**
-     * extracts access token from access_token=ACCESS_TOKEN&scope=&token_type=bearer
-     * @param str the access token with extra params
-     * @return the access token
-     */
-    private static String extractAccessToken(String str) {
-        LOGGER.debug("Entering AuthServiceImpl:extractAccessToken");
-
-        String[] parts = str.split("&");
-
-        for (String part : parts) {
-            String[] keyValue = part.split("=");
-            if (keyValue[0].equals("access_token")) {
-                return keyValue[1];
-            }
-        }
-        return null;
-    }
 }

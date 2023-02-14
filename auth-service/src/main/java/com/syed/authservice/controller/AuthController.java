@@ -24,23 +24,28 @@ public class AuthController {
     }
 
     /**
+     * endpoint invoked by GitHub
      * gets authorization code from url and uses to fetch and save user to database
      * cookie sent to browser with username to then be used to make request to UserController
      * @param code the authorization code sent by GitHub in url
      * @param response the HttpServletResponse containing cookie
      * @return the redirection to the React homepage after authentication
      */
-    // url where authorization code will be attached as query parameter in
     @GetMapping("/user/signin/callback")
-    public RedirectView signin(@RequestParam(value = "code") String code,
+    public RedirectView callback(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {
         LOGGER.debug("Entering AuthController:signin");
 
         String name = authService.signin(code);
-        Cookie cookie = AuthServiceUtility.createCookie(
-                "loggedIn", name, 60000, false, "localhost", "/");
-        response.addCookie(cookie);
 
-        return new RedirectView("http://localhost:3000/");
+        if (name != null) {
+            Cookie cookie = AuthServiceUtility.createCookie(
+                    "loggedIn", name, 60000, false, "localhost", "/");
+            response.addCookie(cookie);
+
+            return new RedirectView("http://localhost:3000/");
+        } else {
+            return new RedirectView("http://localhost:3000/500");
+        }
     }
 }

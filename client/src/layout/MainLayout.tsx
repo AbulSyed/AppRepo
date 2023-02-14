@@ -15,6 +15,7 @@ import Auth from '../pages/Auth/Auth';
 import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchUser } from '../store/user/userSlice';
+import ServerError from '../pages/ServerError/ServerError';
 
 const { Header, Content, Sider } = Layout;
 
@@ -48,7 +49,9 @@ const MainLayout: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
-    dispatch(fetchUser());
+    if (cookie) {
+      dispatch(fetchUser());
+    }
   }, []);
 
   return (
@@ -119,6 +122,7 @@ const MainLayout: React.FC = () => {
             <Route path="/myrepos" element={cookie ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={cookie ? <Favourites /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!cookie ? <Auth /> : <Navigate to="/" />} />
+            <Route path="/500" element={!cookie ? <ServerError /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>

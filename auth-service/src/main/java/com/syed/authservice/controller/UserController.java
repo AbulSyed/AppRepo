@@ -27,8 +27,8 @@ public class UserController {
      */
     @CrossOrigin
     @GetMapping("/getUser/{username}")
-    public UserDto loggedIn(@PathVariable String username) {
-        LOGGER.debug("Entering UserController:loggedIn");
+    public UserDto getUser(@PathVariable String username) {
+        LOGGER.debug("Entering UserController:getUser");
 
         return userService.getUserByUsername(username);
     }

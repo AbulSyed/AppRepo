@@ -19,7 +19,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Value("${github.clientId}")
     private String clientId;
-
     @Value("${github.clientSecret}")
     private String clientSecret;
 
@@ -41,7 +40,13 @@ public class AuthServiceImpl implements AuthService {
         LOGGER.debug("Entering AuthServiceImpl:signin");
 
         String accessToken = getAccessToken(code);
-        return userService.getUserByToken(accessToken);
+        if (accessToken != null) {
+            LOGGER.debug("access token is ok, auth passed");
+            return userService.getUserByToken(accessToken);
+        } else {
+            LOGGER.debug("access token is null, auth failed");
+            return null;
+        }
     }
 
     /**
@@ -64,7 +69,8 @@ public class AuthServiceImpl implements AuthService {
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(data, headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
             return AuthServiceUtility.extractAccessToken(response.getBody());

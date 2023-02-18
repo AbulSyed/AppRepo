@@ -25,9 +25,9 @@ const initialState: InitialState = {
   error: '',
 }
 
-export const fetchUser = createAsyncThunk("user/fetchUser", () => {
+export const fetchUser = createAsyncThunk("user/fetchUser", (name: string) => {
   return api
-    .get("/authservice/getUser/AbulSyed")
+    .get(`/authservice/getUser/${name}`)
     // .then((res) => console.log(res.data))
     .then((res) => res.data);
 });

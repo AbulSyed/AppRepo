@@ -50,7 +50,7 @@ const MainLayout: React.FC = () => {
 
   useEffect(() => {
     if (cookie) {
-      dispatch(fetchUser());
+      dispatch(fetchUser(cookie));
     }
   }, []);
 

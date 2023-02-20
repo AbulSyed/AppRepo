@@ -1,13 +1,26 @@
 # AppRepo
 
 ### Purpose
-Platform acts as a hub where you can find reusble code. Login using your GitHub to share repositories.
+Application that allows users to share and find useful code repositories. Users can login using their GitHub credentials to share repositories.
+
+### Architecture overview
+
+```
+                                     |----------|     |--------------|
+                               |-----| AUTH API |-----| GITHUB OAUTH |
+|--------|     |---------|     |     |----------|     |--------------|
+| Client |-----| GATEWAY |-----|
+|--------|     |---------|     |     |----------|
+                               |-----| REPO API |
+                                     |----------|
+```
 
 ### Technologies
 
 #### UI
 - React & TypeScript
-- Redux toolkit
+- Redux Toolkit
+- Ant Design
 
 #### Backend
 - Spring Boot

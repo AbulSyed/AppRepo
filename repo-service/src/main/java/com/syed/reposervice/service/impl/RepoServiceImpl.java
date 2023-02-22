@@ -2,9 +2,12 @@ package com.syed.reposervice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
+import com.syed.reposervice.entity.Repo;
 import com.syed.reposervice.exception.InternalServerErrorException;
 import com.syed.reposervice.exception.NotFoundException;
+import com.syed.reposervice.repository.RepoRepository;
 import com.syed.reposervice.service.RepoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +22,19 @@ public class RepoServiceImpl implements RepoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepoService.class);
 
     private final RestTemplate restTemplate;
+    private final RepoRepository repoRepository;
 
-    public RepoServiceImpl(RestTemplate restTemplate) {
+    public RepoServiceImpl(RestTemplate restTemplate, RepoRepository repoRepository) {
         this.restTemplate = restTemplate;
+        this.repoRepository = repoRepository;
     }
 
+    /**
+     * makes a call to GitHub API and returns list of users repositories
+     * @param username the GitHub username
+     * @return the users repositories
+     * @throws JsonProcessingException
+     */
     @Override
     public UserRepo[] getRepos(String username) throws JsonProcessingException {
         LOGGER.debug("Entering RepoServiceImpl:getRepos");
@@ -45,5 +56,26 @@ public class RepoServiceImpl implements RepoService {
             }
             throw new InternalServerErrorException("Error occurred while fetching user repositories");
         }
+    }
+
+    /**
+     * saves repository in database
+     * @param repoDto the repo to share
+     * @return the repo shared
+     */
+    @Override
+    public RepoDto shareRepo(RepoDto repoDto) {
+        Repo repo = new Repo();
+        repo.setName(repoDto.getName());
+        repo.setDescription(repoDto.getDescription());
+        repo.setHtmlUrl(repoDto.getHtml_url());
+        repo.setLanguage(repoDto.getLanguage());
+        repo.setCloneUrl(repoDto.getClone_url());
+        repo.setCategory(repoDto.getCategory());
+
+        repoRepository.save(repo);
+        repoDto.setId(repo.getId());
+
+        return repoDto;
     }
 }

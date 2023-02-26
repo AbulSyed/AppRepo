@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RepoServiceImpl implements RepoService {
 
@@ -77,5 +80,23 @@ public class RepoServiceImpl implements RepoService {
         repoDto.setId(repo.getId());
 
         return repoDto;
+    }
+
+    /**
+     * method to fetch shared repos
+     * @return
+     */
+    @Override
+    public List<RepoDto> getSharedRepos() {
+        List<Repo> repos = repoRepository.findAll();
+        List<RepoDto> repoDtos = new ArrayList<>();
+
+        for (Repo repo : repos) {
+            RepoDto repoDto = new RepoDto(repo.getId(), repo.getName(), repo.getDescription(), repo.getHtmlUrl(),
+                    repo.getLanguage(), repo.getCloneUrl(), repo.getCategory());
+            repoDtos.add(repoDto);
+        }
+
+        return repoDtos;
     }
 }

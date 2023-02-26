@@ -4,7 +4,6 @@ import com.syed.authservice.dto.UserDto;
 import com.syed.authservice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +24,6 @@ public class UserController {
      * @param username the GitHub username
      * @return the user dto
      */
-    @CrossOrigin
     @GetMapping("/getUser/{username}")
     public UserDto getUser(@PathVariable String username) {
         LOGGER.debug("Entering UserController:getUser");

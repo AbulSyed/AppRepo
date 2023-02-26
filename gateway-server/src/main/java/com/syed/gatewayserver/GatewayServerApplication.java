@@ -7,8 +7,6 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
-
 @SpringBootApplication
 @EnableEurekaClient
 public class GatewayServerApplication {
@@ -26,15 +24,12 @@ public class GatewayServerApplication {
 						/* accepts /API_GATEWAY/authservice/...
 						 * but replace with /...
 						 * e.g. /API_GATEWAY/authservice/hello/1 will convert to /hello/1 */
-						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}")
-								// adding response header
-								.addResponseHeader("X-Response-Time", new Date().toString()))
+						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}"))
 						// redirect request with account microservice registered on eureka server
 						.uri("lb://AUTHSERVICE"))
 				.route(p -> p
 						.path("/API_GATEWAY/reposervice/**")
-						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}")
-								.addResponseHeader("X-Response-Time", new Date().toString()))
+						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}"))
 						.uri("lb://REPOSERVICE")).build();
 	}
 }

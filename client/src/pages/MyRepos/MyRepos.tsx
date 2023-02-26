@@ -3,7 +3,7 @@ import RepoCard from '../../components/RepoCard';
 import { useAppSelector } from '../../store/hooks';
 
 const MyRepos: React.FC = () => {
-  const repo = useAppSelector((state) => state.repo.repo);
+  const repo = useAppSelector((state) => state.repo.repos);
 
   return (
     <div>

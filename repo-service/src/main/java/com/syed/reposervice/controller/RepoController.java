@@ -9,8 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@CrossOrigin
 public class RepoController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RepoController.class);
@@ -21,6 +22,12 @@ public class RepoController {
         this.repoService = repoService;
     }
 
+    /**
+     * get user repositories
+     * @param username the GitHub username
+     * @return array of user repositories
+     * @throws JsonProcessingException
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("getRepos/{username}")
     public UserRepo[] getRepos(@PathVariable String username) throws JsonProcessingException {
@@ -29,9 +36,24 @@ public class RepoController {
         return repoService.getRepos(username);
     }
 
+    /**
+     * endpoint to share a repo
+     * @param repoDto repo data to share
+     * @return the shared repo
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/shareRepo")
     public RepoDto shareRepo(@RequestBody RepoDto repoDto) {
         return repoService.shareRepo(repoDto);
+    }
+
+    /**
+     * gets shared repositories
+     * @return list of shared repositories
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/getSharedRepos")
+    public List<RepoDto> getSharedRepos() {
+        return repoService.getSharedRepos();
     }
 }

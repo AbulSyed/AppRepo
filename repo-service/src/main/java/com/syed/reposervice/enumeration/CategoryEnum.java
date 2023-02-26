@@ -4,6 +4,6 @@ public enum CategoryEnum {
     UIT,
     API,
     IAC,
-    SCRIPTS,
-    FUNCTIONS,
+    SCRIPT,
+    FUNCTION,
 }

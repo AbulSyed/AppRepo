@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchUser } from '../store/user/userSlice';
 import ServerError from '../pages/ServerError/ServerError';
 import { fetchRepos } from '../store/repo/repoSlice';
+import { fetchSharedRepos } from '../store/repo/repoSlice';
 
 const { Header, Content, Sider } = Layout;
 
@@ -53,6 +54,7 @@ const MainLayout: React.FC = () => {
     if (cookie) {
       dispatch(fetchUser(cookie));
       dispatch(fetchRepos(cookie));
+      dispatch(fetchSharedRepos());
     }
   }, []);
 

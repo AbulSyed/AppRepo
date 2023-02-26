@@ -25,7 +25,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST,
-                "Category not accepted. Accepted values: UIT, API, IAC, SCRIPTS, FUNCTIONS");
+                "Category not accepted. Accepted values: UIT, API, IAC, SCRIPT, FUNCTION");
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }

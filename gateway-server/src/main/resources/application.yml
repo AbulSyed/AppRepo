@@ -11,6 +11,15 @@ spring:
         locator:
           enabled: true
           # lowerCaseServiceId: true
+      # cors config
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders: "*"
 
 eureka:
   instance:

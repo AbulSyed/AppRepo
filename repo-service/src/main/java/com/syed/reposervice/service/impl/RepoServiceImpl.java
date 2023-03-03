@@ -75,6 +75,7 @@ public class RepoServiceImpl implements RepoService {
         repo.setLanguage(repoDto.getLanguage());
         repo.setCloneUrl(repoDto.getClone_url());
         repo.setCategory(repoDto.getCategory());
+        repo.setTech(repoDto.getTech());
 
         repoRepository.save(repo);
         repoDto.setId(repo.getId());
@@ -93,7 +94,7 @@ public class RepoServiceImpl implements RepoService {
 
         for (Repo repo : repos) {
             RepoDto repoDto = new RepoDto(repo.getId(), repo.getName(), repo.getDescription(), repo.getHtmlUrl(),
-                    repo.getLanguage(), repo.getCloneUrl(), repo.getCategory());
+                    repo.getLanguage(), repo.getCloneUrl(), repo.getCategory(), repo.getTech());
             repoDtos.add(repoDto);
         }
 

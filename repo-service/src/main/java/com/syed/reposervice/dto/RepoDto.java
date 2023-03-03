@@ -2,6 +2,8 @@ package com.syed.reposervice.dto;
 
 import com.syed.reposervice.enumeration.CategoryEnum;
 
+import java.util.Set;
+
 public class RepoDto {
 
     private Long id;
@@ -11,11 +13,12 @@ public class RepoDto {
     private String language;
     private String clone_url;
     private CategoryEnum category;
+    private Set<String> tech;
 
     public RepoDto() {
     }
 
-    public RepoDto(Long id, String name, String description, String html_url, String language, String clone_url, CategoryEnum category) {
+    public RepoDto(Long id, String name, String description, String html_url, String language, String clone_url, CategoryEnum category, Set<String> tech) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -23,6 +26,7 @@ public class RepoDto {
         this.language = language;
         this.clone_url = clone_url;
         this.category = category;
+        this.tech = tech;
     }
 
     public Long getId() {
@@ -81,6 +85,14 @@ public class RepoDto {
         this.category = category;
     }
 
+    public Set<String> getTech() {
+        return tech;
+    }
+
+    public void setTech(Set<String> tech) {
+        this.tech = tech;
+    }
+
     @Override
     public String toString() {
         return "RepoDto{" +
@@ -91,6 +103,7 @@ public class RepoDto {
                 ", language='" + language + '\'' +
                 ", clone_url='" + clone_url + '\'' +
                 ", category=" + category +
+                ", tech=" + tech +
                 '}';
     }
 }

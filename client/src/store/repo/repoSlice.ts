@@ -10,7 +10,8 @@ interface Repo {
 }
 
 interface SharedRepo extends Repo {
-  category: string
+  category: string,
+  tech: string[]
 }
 
 interface InitialState {
@@ -27,19 +28,25 @@ const initialState: InitialState = {
   error: '',
 }
 
-export const fetchRepos = createAsyncThunk("repo/fetchRepos", (name: string) => {
-  return api
-    .get(`/reposervice/getRepos/${name}`)
-    .then((res) => res.data);
+export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: string, thunkAPI: any) => {
+  try {
+    const res = await api.get(`/reposervice/getRepos/${name}`);
+    return res.data;
+  } catch(err: any) {
+    return thunkAPI.rejectWithValue({ message: err.message });
+  }
 });
 
-export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", () => {
-  return api
-    .get(`/reposervice/getSharedRepos`)
-    .then((res) => res.data);
+export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async (arg, thunkAPI: any) => {
+  try {
+    const res = await api.get(`/reposervice/getSharedRepos`);
+    return res.data;
+  } catch(err: any) {
+    return thunkAPI.rejectWithValue({ message: err.message });
+  }
 });
 
-export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedRepo, thunkAPI) => {
+export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedRepo, thunkAPI: any) => {
   try {
     const res = await api.post(`/reposervice/shareRepo`, data);
     return res.data;

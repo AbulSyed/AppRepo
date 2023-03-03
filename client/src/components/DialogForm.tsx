@@ -3,6 +3,7 @@ import { Button, message, Form, Modal, Select } from 'antd';
 const { Option } = Select;
 import { shareRepo } from '../store/repo/repoSlice';
 import { useAppDispatch } from '../store/hooks';
+import TechTag from './TechTag';
 
 interface Values {
   title: string;
@@ -15,15 +16,23 @@ interface CollectionCreateFormProps {
   onCreate: (values: Values) => void;
   onCancel: () => void;
   name: string;
+  lang?: string;
+  tags: string[];
+  setTags: any;
 }
 
 const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   open,
   onCreate,
   onCancel,
-  name
+  name,
+  lang,
+  tags,
+  setTags
 }) => {
   const [form] = Form.useForm();
+  // had to push a component down again
+  // const [tags, setTags] = useState([]);
 
   return (
     <Modal
@@ -69,6 +78,8 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
             <Option value="FUNCTION">Function</Option>
           </Select>
         </Form.Item>
+        Technologies:<br/>
+        <TechTag tags={tags} setTags={setTags} lang={lang} />
       </Form>
     </Modal>
   );
@@ -87,6 +98,7 @@ type DialogFormProps = {
 const DialogForm: React.FC<DialogFormProps> = ({ type, value, name, desc, lang, url, clone_url }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const [tags, setTags] = useState([]);
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -111,11 +123,11 @@ const DialogForm: React.FC<DialogFormProps> = ({ type, value, name, desc, lang, 
       html_url: url,
       language: lang,
       clone_url,
-      category: values.category
+      category: values.category,
+      tech: tags
     }
 
     dispatch(shareRepo(data)).then((action) => {
-      console.log(action)
       if (action.type === 'repo/shareRepo/fulfilled') {
         console.log('Request passed:', action.payload);
         success();
@@ -125,6 +137,8 @@ const DialogForm: React.FC<DialogFormProps> = ({ type, value, name, desc, lang, 
       }
     });
     // console.log('Received values of form: ', values);
+    // console.log('Received tags of form: ', tags);
+    // console.log('data: ', data);
     setOpen(false);
   };
 
@@ -146,6 +160,8 @@ const DialogForm: React.FC<DialogFormProps> = ({ type, value, name, desc, lang, 
           setOpen(false);
         }}
         name={name}
+        lang={lang}
+        tags={tags} setTags={setTags}
       />
     </div>
   );

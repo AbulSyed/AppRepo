@@ -11,6 +11,7 @@ import Home from '../pages/home/Home';
 import NotFound from '../pages/NotFound/NotFound';
 import Favourites from '../pages/Favourites/Favourites';
 import MyRepos from '../pages/MyRepos/MyRepos';
+import Uit from '../pages/CategoryPages/Uit';
 import Auth from '../pages/Auth/Auth';
 import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -46,7 +47,7 @@ const MainLayout: React.FC = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   // cookie sent from backend
-  const cookie = Cookies.get('loggedIn');
+  const cookie = Cookies.get('userCookie');
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
 
@@ -123,6 +124,9 @@ const MainLayout: React.FC = () => {
         <Content style={{ margin: '0 16px' }}>
           <Routes>
             <Route path="/" element={cookie ? <Home /> : <Navigate to="/auth" />} />
+            {/* CATEGORY PAGES */}
+            <Route path="/uit" element={cookie ? <Uit /> : <Navigate to="/auth" />} />
+            {/* CATEGORY PAGES */}
             <Route path="/myrepos" element={cookie ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={cookie ? <Favourites /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!cookie ? <Auth /> : <Navigate to="/" />} />

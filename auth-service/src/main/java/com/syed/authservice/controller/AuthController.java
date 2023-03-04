@@ -40,7 +40,7 @@ public class AuthController {
 
         if (name != null) {
             Cookie cookie = AuthServiceUtility.createCookie(
-                    "loggedIn", name, 60000, false, "localhost", "/");
+                    "userCookie", name, 60000, false, "localhost", "/");
             response.addCookie(cookie);
 
             return new RedirectView("http://localhost:3000/");

@@ -2,6 +2,7 @@ package com.syed.authservice.service.impl;
 
 import com.syed.authservice.service.AuthService;
 import com.syed.authservice.service.UserService;
+import com.syed.authservice.utility.AuthServiceConstant;
 import com.syed.authservice.utility.AuthServiceUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +64,9 @@ public class AuthServiceImpl implements AuthService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
-        data.add("code", code);
-        data.add("client_id", clientId);
-        data.add("client_secret", clientSecret);
+        data.add(AuthServiceConstant.CODE, code);
+        data.add(AuthServiceConstant.CLIENT_ID, clientId);
+        data.add(AuthServiceConstant.CLIENT_SECRET, clientSecret);
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(data, headers);
 

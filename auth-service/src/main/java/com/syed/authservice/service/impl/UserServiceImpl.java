@@ -4,6 +4,7 @@ import com.syed.authservice.dto.UserDto;
 import com.syed.authservice.entity.User;
 import com.syed.authservice.repository.UserRepository;
 import com.syed.authservice.service.UserService;
+import com.syed.authservice.utility.AuthServiceConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         String url = "https://api.github.com/user";
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set(AuthServiceConstant.AUTHORIZATION, AuthServiceConstant.BEARER + accessToken);
         HttpEntity entity = new HttpEntity(headers);
 
         ResponseEntity<UserDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, UserDto.class);

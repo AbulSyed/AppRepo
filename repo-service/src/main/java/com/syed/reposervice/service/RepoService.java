@@ -10,5 +10,5 @@ public interface RepoService {
 
     UserRepo[] getRepos(String username) throws JsonProcessingException;
     RepoDto shareRepo(RepoDto repoDto);
-    List<RepoDto> getSharedRepos();
+    List<RepoDto> getSharedRepos(String username);
 }

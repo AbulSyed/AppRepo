@@ -14,11 +14,12 @@ public class RepoDto {
     private String clone_url;
     private CategoryEnum category;
     private Set<String> tech;
+    private boolean starred;
 
     public RepoDto() {
     }
 
-    public RepoDto(Long id, String name, String description, String html_url, String language, String clone_url, CategoryEnum category, Set<String> tech) {
+    public RepoDto(Long id, String name, String description, String html_url, String language, String clone_url, CategoryEnum category, Set<String> tech, boolean starred) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,6 +28,7 @@ public class RepoDto {
         this.clone_url = clone_url;
         this.category = category;
         this.tech = tech;
+        this.starred = starred;
     }
 
     public Long getId() {
@@ -93,6 +95,14 @@ public class RepoDto {
         this.tech = tech;
     }
 
+    public boolean isStarred() {
+        return starred;
+    }
+
+    public void setStarred(boolean starred) {
+        this.starred = starred;
+    }
+
     @Override
     public String toString() {
         return "RepoDto{" +
@@ -104,6 +114,7 @@ public class RepoDto {
                 ", clone_url='" + clone_url + '\'' +
                 ", category=" + category +
                 ", tech=" + tech +
+                ", starred=" + starred +
                 '}';
     }
 }

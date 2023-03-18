@@ -54,10 +54,10 @@ public class RepoController {
      * @return list of shared repositories
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/getSharedRepos")
-    public List<RepoDto> getSharedRepos() {
+    @GetMapping("/getSharedRepos/{username}")
+    public List<RepoDto> getSharedRepos(@PathVariable String username) {
         LOGGER.debug("Entering RepoController:getSharedRepos");
 
-        return repoService.getSharedRepos();
+        return repoService.getSharedRepos(username);
     }
 }

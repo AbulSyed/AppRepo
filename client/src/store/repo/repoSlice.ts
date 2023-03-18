@@ -11,7 +11,8 @@ interface Repo {
 
 interface SharedRepo extends Repo {
   category: string,
-  tech: string[]
+  tech: string[],
+  id: number
 }
 
 interface InitialState {
@@ -37,10 +38,15 @@ export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: strin
   }
 });
 
-export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async (arg, thunkAPI: any) => {
+export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async (name: string, thunkAPI: any) => {
   try {
-    const res = await api.get(`/reposervice/getSharedRepos`);
-    return res.data;
+    const res = await api.get(`/reposervice/getSharedRepos/${name}`);
+
+    // adding key to each object since antd table needs key
+    let arr = [];
+    arr = res.data.map((obj: { id: any; }) => ({ ...obj, key: obj.id }));
+
+    return arr;
   } catch(err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });
   }
@@ -58,7 +64,16 @@ export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedR
 const repoSlice = createSlice({
   name: "repo",
   initialState,
-  reducers: {},
+  reducers: {
+    star: (state, action) => {
+      state.sharedRepos = state.sharedRepos.map(shareRepo => {
+        if (shareRepo.id == action.payload.id) {
+          return action.payload;
+        }
+        return shareRepo;
+      })
+    }
+  },
   extraReducers: (builder) => {
     // fetching repos
     builder.addCase(fetchRepos.pending, (state) => {
@@ -106,3 +121,4 @@ const repoSlice = createSlice({
 });
 
 export default repoSlice.reducer;
+export const { star } = repoSlice.actions;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
 import com.syed.reposervice.entity.Repo;
+import com.syed.reposervice.entity.StarredRepo;
 import com.syed.reposervice.exception.InternalServerErrorException;
 import com.syed.reposervice.exception.NotFoundException;
 import com.syed.reposervice.repository.RepoRepository;
@@ -90,15 +91,24 @@ public class RepoServiceImpl implements RepoService {
      * @return list of shared repos
      */
     @Override
-    public List<RepoDto> getSharedRepos() {
+    public List<RepoDto> getSharedRepos(String username) {
         LOGGER.debug("Entering RepoServiceImpl:getSharedRepos");
 
         List<Repo> repos = repoRepository.findAll();
         List<RepoDto> repoDtos = new ArrayList<>();
 
         for (Repo repo : repos) {
+//            boolean isStarred = false;
+//            for (StarredRepo starredRepo : repo.getStarredRepo()) {
+//                if (starredRepo.getStarredBy().equals(username)) {
+//                    isStarred = true;
+//                    break;
+//                }
+//            }
+            boolean isStarred = repo.getStarredRepo().stream().anyMatch(el -> el.getStarredBy().equals(username));
+
             RepoDto repoDto = new RepoDto(repo.getId(), repo.getName(), repo.getDescription(), repo.getHtmlUrl(),
-                    repo.getLanguage(), repo.getCloneUrl(), repo.getCategory(), repo.getTech());
+                    repo.getLanguage(), repo.getCloneUrl(), repo.getCategory(), repo.getTech(), isStarred);
             repoDtos.add(repoDto);
         }
 

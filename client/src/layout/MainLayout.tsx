@@ -46,7 +46,7 @@ const MainLayout: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
-  // cookie sent from backend
+  // cookie sent from backend - contains GitHub username
   const cookie = Cookies.get('userCookie');
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
@@ -55,7 +55,7 @@ const MainLayout: React.FC = () => {
     if (cookie) {
       dispatch(fetchUser(cookie));
       dispatch(fetchRepos(cookie));
-      dispatch(fetchSharedRepos());
+      dispatch(fetchSharedRepos(cookie));
     }
   }, []);
 

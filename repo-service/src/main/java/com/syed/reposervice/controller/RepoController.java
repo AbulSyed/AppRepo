@@ -44,6 +44,8 @@ public class RepoController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/shareRepo")
     public RepoDto shareRepo(@RequestBody RepoDto repoDto) {
+        LOGGER.debug("Entering RepoController:shareRepo");
+
         return repoService.shareRepo(repoDto);
     }
 
@@ -54,6 +56,8 @@ public class RepoController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/getSharedRepos")
     public List<RepoDto> getSharedRepos() {
+        LOGGER.debug("Entering RepoController:getSharedRepos");
+
         return repoService.getSharedRepos();
     }
 }

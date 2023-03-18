@@ -68,6 +68,8 @@ public class RepoServiceImpl implements RepoService {
      */
     @Override
     public RepoDto shareRepo(RepoDto repoDto) {
+        LOGGER.debug("Entering RepoServiceImpl:shareRepo");
+
         Repo repo = new Repo();
         repo.setName(repoDto.getName());
         repo.setDescription(repoDto.getDescription());
@@ -89,6 +91,8 @@ public class RepoServiceImpl implements RepoService {
      */
     @Override
     public List<RepoDto> getSharedRepos() {
+        LOGGER.debug("Entering RepoServiceImpl:getSharedRepos");
+
         List<Repo> repos = repoRepository.findAll();
         List<RepoDto> repoDtos = new ArrayList<>();
 

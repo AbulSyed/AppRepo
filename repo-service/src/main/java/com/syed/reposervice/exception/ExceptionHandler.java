@@ -24,8 +24,11 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        // had to comment out, as HttpMessageNotReadableException is thrown whenever request body is empty for Post req
+//        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST,
+//                "Category not accepted. Accepted values: UIT, API, IAC, SCRIPT, FUNCTION");
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST,
-                "Category not accepted. Accepted values: UIT, API, IAC, SCRIPT, FUNCTION");
+                "Request body required");
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }

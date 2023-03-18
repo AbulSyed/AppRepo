@@ -85,7 +85,7 @@ public class RepoServiceImpl implements RepoService {
 
     /**
      * method to fetch shared repos
-     * @return
+     * @return list of shared repos
      */
     @Override
     public List<RepoDto> getSharedRepos() {

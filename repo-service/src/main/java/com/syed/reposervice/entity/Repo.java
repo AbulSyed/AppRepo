@@ -23,11 +23,13 @@ public class Repo {
     // The new table will have a foreign key to the Repo table.
     @ElementCollection
     private Set<String> tech;
+    @OneToMany(mappedBy = "repo", cascade = CascadeType.ALL)
+    private Set<StarredRepo> starredRepo;
 
     public Repo() {
     }
 
-    public Repo(Long id, String name, String description, String htmlUrl, String language, String cloneUrl, CategoryEnum category, Set<String> tech) {
+    public Repo(Long id, String name, String description, String htmlUrl, String language, String cloneUrl, CategoryEnum category, Set<String> tech, Set<StarredRepo> starredRepo) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,6 +38,7 @@ public class Repo {
         this.cloneUrl = cloneUrl;
         this.category = category;
         this.tech = tech;
+        this.starredRepo = starredRepo;
     }
 
     public Long getId() {
@@ -102,17 +105,26 @@ public class Repo {
         this.tech = tech;
     }
 
-    @Override
-    public String toString() {
-        return "Repo{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", htmlUrl='" + htmlUrl + '\'' +
-                ", language='" + language + '\'' +
-                ", cloneUrl='" + cloneUrl + '\'' +
-                ", category=" + category +
-                ", tech=" + tech +
-                '}';
+    public Set<StarredRepo> getStarredRepo() {
+        return starredRepo;
     }
+
+    public void setStarredRepo(Set<StarredRepo> starredRepo) {
+        this.starredRepo = starredRepo;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Repo{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", htmlUrl='" + htmlUrl + '\'' +
+//                ", language='" + language + '\'' +
+//                ", cloneUrl='" + cloneUrl + '\'' +
+//                ", category=" + category +
+//                ", tech=" + tech +
+//                ", starredRepo=" + starredRepo +
+//                '}';
+//    }
 }

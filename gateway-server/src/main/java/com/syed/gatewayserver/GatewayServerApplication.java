@@ -15,21 +15,17 @@ public class GatewayServerApplication {
 		SpringApplication.run(GatewayServerApplication.class, args);
 	}
 
-	@Bean
-	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route(p -> p
-						// predicate bool (if path matches)
-						.path("/API_GATEWAY/authservice/**")
-						/* accepts /API_GATEWAY/authservice/...
-						 * but replace with /...
-						 * e.g. /API_GATEWAY/authservice/hello/1 will convert to /hello/1 */
-						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}"))
-						// redirect request with account microservice registered on eureka server
-						.uri("lb://AUTHSERVICE"))
-				.route(p -> p
-						.path("/API_GATEWAY/reposervice/**")
-						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}"))
-						.uri("lb://REPOSERVICE")).build();
-	}
+//	@Bean
+//	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+//		return builder.routes()
+//				.route(p -> p
+//						.path("/API_GATEWAY/authservice/**")
+//						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}"))
+//						// redirect request with auth microservice registered on eureka server
+//						.uri("lb://AUTHSERVICE"))
+//				.route(p -> p
+//						.path("/API_GATEWAY/reposervice/**")
+//						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}"))
+//						.uri("lb://REPOSERVICE")).build();
+//	}
 }

@@ -11,6 +11,23 @@ spring:
         locator:
           enabled: true
           # lowerCaseServiceId: true
+      # enable routing
+      routes:
+        - id: authservice
+          uri: lb://AUTHSERVICE
+          predicates:
+            - Path=/API_GATEWAY/authservice/**
+            - Method=GET
+          filters:
+            # need to replace our prefix
+            - RewritePath=/API_GATEWAY/authservice/(?<segment>.*), /${segment}
+        - id: reposervice
+          uri: lb://REPOSERVICE
+          predicates:
+            - Path=/API_GATEWAY/reposervice/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/API_GATEWAY/reposervice/(?<segment>.*), /${segment}
       # cors config
       globalcors:
         corsConfigurations:

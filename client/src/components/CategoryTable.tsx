@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAppSelector } from "../store/hooks";
 import { useAppDispatch } from '../store/hooks';
-import { star } from '../store/repo/repoSlice';
-import { Button, Table, Tag } from 'antd';
+import { star, starRepo } from '../store/repo/repoSlice';
+import { Button, message, Table, Tag } from 'antd';
 import { GithubOutlined, StarOutlined } from '@ant-design/icons';
 
 const { Column } = Table;
@@ -14,6 +14,7 @@ interface DataType {
   html_url: string;
   tech: string[];
   starred: boolean;
+  id: number
 }
 
 interface CategoryTableProps {
@@ -23,7 +24,24 @@ interface CategoryTableProps {
 const CategoryTable: React.FC<CategoryTableProps> = ({ category }) => {
   const sharedRepos = useAppSelector((state) => state.repo.sharedRepos);
   const [dummyState, setDummyState] = useState(new Date());
+  const state = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = (message: string) => {
+    messageApi.open({
+      type: 'success',
+      content: message,
+    });
+  };
+
+  const error = (message: string) => {
+    messageApi.open({
+      type: 'error',
+      content: message,
+    });
+  };
 
   // console.log('sharedRepos===', sharedRepos);
 
@@ -36,46 +54,58 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ category }) => {
 
   const handleStar = (record: DataType) => {
     const newRecord = { ...record, starred: !record.starred };
+    // updates boolean star state
     dispatch(star(newRecord));
-
-    // force a re-render of component, as updating the starred property in the data array alone won't trigger a re-render
-    // as React only re-renders a component when its state or props change
-    setDummyState(new Date());
+    // API request
+    dispatch(starRepo({
+      starredBy: state.user.login,
+      repoId: record.id
+    })).then(action => {
+      console.log(action.payload);
+      if (action.type === 'repo/starRepo/fulfilled') {
+        success(action.payload);
+      } else if (action.type === 'repo/starRepo/rejected') {
+        error(action.payload.message);
+      }
+    });
   }
 
   return (
-    <Table dataSource={filteredCategory} style={{ marginTop: '2rem' }}>
-      <Column title="Name" dataIndex="name" key="name" />
-      <Column title="Description" dataIndex="description" key="description" />
-      <Column
-        title="Link"
-        key="html_url"
-        render={(_: any, record: DataType) => (
-          <Button href={record.html_url} target="_blank" icon={<GithubOutlined />} />
-        )}
-      />
-      <Column
-        title="Tech"
-        dataIndex="tech"
-        key="tech"
-        render={(tech: string[]) => (
-          <>
-            {tech.map((tag) => (
-              <Tag color="blue" key={tag}>
-                {tag}
-              </Tag>
-            ))}
-          </>
-        )}
-      />
-      <Column
-        title="Star"
-        key="star"
-        render={(_: any, record: DataType) => (
-          <Button onClick={() => handleStar(record)} style={{ color: record.starred ? "gold" : "grey", borderColor: record.starred ? "gold" : "white" }} icon={<StarOutlined />} />
-        )}
-      />
-    </Table>
+    <>
+      {contextHolder}
+      <Table dataSource={filteredCategory} style={{ marginTop: '2rem' }}>
+        <Column title="Name" dataIndex="name" key="name" />
+        <Column title="Description" dataIndex="description" key="description" />
+        <Column
+          title="Link"
+          key="html_url"
+          render={(_: any, record: DataType) => (
+            <Button href={record.html_url} target="_blank" icon={<GithubOutlined />} />
+          )}
+        />
+        <Column
+          title="Tech"
+          dataIndex="tech"
+          key="tech"
+          render={(tech: string[]) => (
+            <>
+              {tech.map((tag) => (
+                <Tag color="blue" key={tag}>
+                  {tag}
+                </Tag>
+              ))}
+            </>
+          )}
+        />
+        <Column
+          title="Star"
+          key="star"
+          render={(_: any, record: DataType) => (
+            <Button onClick={() => handleStar(record)} style={{ color: record.starred ? "gold" : "grey", borderColor: record.starred ? "gold" : "white" }} icon={<StarOutlined />} />
+          )}
+        />
+      </Table>
+    </>
   )
 }
 

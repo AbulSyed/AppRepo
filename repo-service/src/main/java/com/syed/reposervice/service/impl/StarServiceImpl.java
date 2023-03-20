@@ -49,13 +49,13 @@ public class StarServiceImpl implements StarService {
 
             starRepository.save(starredRepo);
 
-            return "Repo starred";
+            return "Repo added to favourites";
         } else {
             LOGGER.debug("Repo already starred - need to unstar");
             starRepository.deleteByRepoIdAndStarredBy(
                     starredRepoDto.getRepoId(),starredRepoDto.getStarredBy());
 
-            return "Repo un starred";
+            return "Repo removed from favourites";
         }
     }
 }

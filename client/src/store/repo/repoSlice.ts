@@ -15,6 +15,11 @@ interface SharedRepo extends Repo {
   id: number
 }
 
+interface StarRepoDto {
+  starredBy: string;
+  repoId: number;
+}
+
 interface InitialState {
   loading: boolean;
   repos: Repo[];
@@ -29,6 +34,7 @@ const initialState: InitialState = {
   error: '',
 }
 
+// fetches currently logged in users repositories
 export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: string, thunkAPI: any) => {
   try {
     const res = await api.get(`/reposervice/getRepos/${name}`);
@@ -38,8 +44,10 @@ export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: strin
   }
 });
 
+// fetches all repositories shared by all users
 export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async (name: string, thunkAPI: any) => {
   try {
+    // username added for logic to check which repos have been starred
     const res = await api.get(`/reposervice/getSharedRepos/${name}`);
 
     // adding key to each object since antd table needs key
@@ -52,6 +60,7 @@ export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async 
   }
 });
 
+// request to share a repo to a category
 export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedRepo, thunkAPI: any) => {
   try {
     const res = await api.post(`/reposervice/shareRepo`, data);
@@ -60,6 +69,17 @@ export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedR
     let dataWithKey = {...res.data, key: res.data.id};
 
     return dataWithKey;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({ message: err.message });
+  }
+});
+
+// favourite a repo
+export const starRepo = createAsyncThunk("repo/starRepo", async (data: StarRepoDto, thunkAPI: any) => {
+  try {
+    const res = await api.post(`/reposervice/starRepo`, data);
+
+    return res.data;
   } catch (err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });
   }

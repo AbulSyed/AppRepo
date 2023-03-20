@@ -55,7 +55,11 @@ export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async 
 export const shareRepo = createAsyncThunk("repo/shareRepo", async (data: SharedRepo, thunkAPI: any) => {
   try {
     const res = await api.post(`/reposervice/shareRepo`, data);
-    return res.data;
+
+    // adding key to object since antd table needs key
+    let dataWithKey = {...res.data, key: res.data.id};
+
+    return dataWithKey;
   } catch (err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });
   }
@@ -109,6 +113,7 @@ const repoSlice = createSlice({
     });
     builder.addCase(shareRepo.fulfilled, (state, action) => {
       state.loading = false;
+      console.log(action.payload)
       state.sharedRepos.push(action.payload);
       state.error = '';
     });

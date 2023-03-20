@@ -56,8 +56,13 @@ public class RepoServiceImpl implements RepoService {
             return mapper.readValue(response.getBody(), UserRepo[].class);
         } catch (HttpStatusCodeException ex) {
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+                LOGGER.error("User not found");
                 throw new NotFoundException("User not found");
             }
+            // TODO - GitHub API has a max request threshold
+            // if we make too many requests in an hour, GitHub blocks incoming requests
+            // https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting
+            LOGGER.warn("Error occurred while fetching user repositories");
             throw new InternalServerErrorException("Error occurred while fetching user repositories");
         }
     }

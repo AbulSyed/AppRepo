@@ -36,7 +36,7 @@ public class AuthController {
                                HttpServletResponse response) {
         LOGGER.debug("Entering AuthController:signin");
 
-        String name = authService.signin(code);
+        String name = authService.getUsername(code);
 
         if (name != null) {
             Cookie cookie = AuthServiceUtility.createCookie(

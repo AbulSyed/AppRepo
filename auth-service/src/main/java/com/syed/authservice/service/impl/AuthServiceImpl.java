@@ -32,13 +32,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * logins user
+     * gets the logged-in user GitHub username
      * @param code the authorization code sent by GitHub retrieved from url
      * @return the users GitHub username
      */
     @Override
-    public String signin(String code) {
-        LOGGER.debug("Entering AuthServiceImpl:signin");
+    public String getUsername(String code) {
+        LOGGER.debug("Entering AuthServiceImpl:getUsername");
 
         String accessToken = getAccessToken(code);
         if (accessToken != null) {

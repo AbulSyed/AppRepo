@@ -113,7 +113,6 @@ const repoSlice = createSlice({
     });
     builder.addCase(shareRepo.fulfilled, (state, action) => {
       state.loading = false;
-      console.log(action.payload)
       state.sharedRepos.push(action.payload);
       state.error = '';
     });

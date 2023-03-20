@@ -15,17 +15,17 @@ public class GatewayServerApplication {
 		SpringApplication.run(GatewayServerApplication.class, args);
 	}
 
-//	@Bean
-//	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-//		return builder.routes()
-//				.route(p -> p
-//						.path("/API_GATEWAY/authservice/**")
-//						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}"))
-//						// redirect request with auth microservice registered on eureka server
-//						.uri("lb://AUTHSERVICE"))
-//				.route(p -> p
-//						.path("/API_GATEWAY/reposervice/**")
-//						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}"))
-//						.uri("lb://REPOSERVICE")).build();
-//	}
+	@Bean
+	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+		return builder.routes()
+				.route(p -> p
+						.path("/API_GATEWAY/authservice/**")
+						.filters(f -> f.rewritePath("/API_GATEWAY/authservice/(?<segment>.*)","/${segment}"))
+						// redirect request with auth microservice registered on eureka server
+						.uri("lb://AUTHSERVICE"))
+				.route(p -> p
+						.path("/API_GATEWAY/reposervice/**")
+						.filters(f -> f.rewritePath("/API_GATEWAY/reposervice/(?<segment>.*)","/${segment}"))
+						.uri("lb://REPOSERVICE")).build();
+	}
 }

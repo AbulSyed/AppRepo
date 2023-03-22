@@ -34,6 +34,7 @@ public class AuthController {
     @GetMapping("/user/signin/callback")
     public RedirectView callback(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {
+        long startTime = System.currentTimeMillis();
         LOGGER.info("Entering AuthController:callback");
 
         String name = authService.getAuthUsername(code);
@@ -43,8 +44,12 @@ public class AuthController {
                     "userCookie", name, 60000, false, "localhost", "/");
             response.addCookie(cookie);
 
+            long endTime = System.currentTimeMillis();
+            AuthServiceUtility.calcTimeTaken("AuthController:callback time taken: {} ms", startTime, endTime);
             return new RedirectView("http://localhost:3000/");
         } else {
+            long endTime = System.currentTimeMillis();
+            AuthServiceUtility.calcTimeTaken("AuthController:callback time taken: {} ms", startTime, endTime);
             return new RedirectView("http://localhost:3000/500");
         }
     }

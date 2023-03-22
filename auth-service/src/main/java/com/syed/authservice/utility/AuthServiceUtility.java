@@ -1,8 +1,13 @@
 package com.syed.authservice.utility;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.Cookie;
 
 public class AuthServiceUtility {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceUtility.class);
 
     /**
      * extracts access token from access_token=ACCESS_TOKEN&scope=&token_type=bearer
@@ -39,5 +44,15 @@ public class AuthServiceUtility {
         cookie.setDomain(domain);
         cookie.setPath(path);
         return cookie;
+    }
+
+    /**
+     * method to log the time taken for a controller endpoint
+     * @param message the message to log
+     * @param startTime the time just when the endpoint is invoked
+     * @param endTime the time when endpoint has complete
+     */
+    public static void calcTimeTaken(String message, long startTime, long endTime) {
+        LOGGER.debug(message, (endTime - startTime));
     }
 }

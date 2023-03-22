@@ -47,8 +47,10 @@ export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: strin
 // fetches all repositories shared by all users
 export const fetchSharedRepos = createAsyncThunk("repo/fetchSharedRepos", async (name: string, thunkAPI: any) => {
   try {
-    // username added for logic to check which repos have been starred
-    const res = await api.get(`/reposervice/getSharedRepos/${name}`);
+    // username used for logic to check if repos have been starred by current user
+    const res = await api.post(`/reposervice/getSharedRepos`, {
+      username: name
+    });
 
     // adding key to each object since antd table needs key
     let arr = [];

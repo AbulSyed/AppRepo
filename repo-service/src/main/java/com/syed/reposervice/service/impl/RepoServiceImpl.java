@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
+import com.syed.reposervice.dto.UsernameDto;
 import com.syed.reposervice.entity.Repo;
 import com.syed.reposervice.entity.StarredRepo;
 import com.syed.reposervice.exception.InternalServerErrorException;
@@ -96,7 +97,7 @@ public class RepoServiceImpl implements RepoService {
      * @return list of shared repos
      */
     @Override
-    public List<RepoDto> getSharedRepos(String username) {
+    public List<RepoDto> getSharedRepos(UsernameDto usernameDto) {
         LOGGER.info("Entering RepoServiceImpl:getSharedRepos");
 
         List<Repo> repos = repoRepository.findAll();
@@ -110,7 +111,7 @@ public class RepoServiceImpl implements RepoService {
 //                    break;
 //                }
 //            }
-            boolean isStarred = repo.getStarredRepo().stream().anyMatch(el -> el.getStarredBy().equals(username));
+            boolean isStarred = repo.getStarredRepo().stream().anyMatch(el -> el.getStarredBy().equals(usernameDto.getUsername()));
 
             RepoDto repoDto = new RepoDto(repo.getId(), repo.getName(), repo.getDescription(), repo.getHtmlUrl(),
                     repo.getLanguage(), repo.getCloneUrl(), repo.getCategory(), repo.getTech(), isStarred);

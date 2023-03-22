@@ -3,6 +3,7 @@ package com.syed.reposervice.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
+import com.syed.reposervice.dto.UsernameDto;
 import com.syed.reposervice.service.RepoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +55,10 @@ public class RepoController {
      * @return list of shared repositories
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/getSharedRepos/{username}")
-    public List<RepoDto> getSharedRepos(@PathVariable String username) {
+    @PostMapping("/getSharedRepos")
+    public List<RepoDto> getSharedRepos(@RequestBody UsernameDto usernameDto) {
         LOGGER.info("Entering RepoController:getSharedRepos");
 
-        return repoService.getSharedRepos(username);
+        return repoService.getSharedRepos(usernameDto);
     }
 }

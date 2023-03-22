@@ -37,15 +37,15 @@ public class AuthServiceImpl implements AuthService {
      * @return the users GitHub username
      */
     @Override
-    public String getUsername(String code) {
-        LOGGER.debug("Entering AuthServiceImpl:getUsername");
+    public String getAuthUsername(String code) {
+        LOGGER.info("Entering AuthServiceImpl:getAuthUsername");
 
         String accessToken = getAccessToken(code);
         if (accessToken != null) {
-            LOGGER.debug("access token is ok, auth passed");
+            LOGGER.info("access token is ok, auth passed");
             return userService.getUserByToken(accessToken);
         } else {
-            LOGGER.debug("access token is null, auth failed");
+            LOGGER.info("access token is null, auth failed");
             return null;
         }
     }
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
      * @return the access token
      */
     private String getAccessToken(String code) {
-        LOGGER.debug("Entering AuthServiceImpl:getAccessToken");
+        LOGGER.info("Entering AuthServiceImpl:getAccessToken");
 
         String url = "https://github.com/login/oauth/access_token";
 

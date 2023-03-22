@@ -31,7 +31,7 @@ public class RepoController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("getRepos/{username}")
     public UserRepo[] getRepos(@PathVariable String username) throws JsonProcessingException {
-        LOGGER.debug("Entering RepoController:getRepos");
+        LOGGER.info("Entering RepoController:getRepos");
 
         return repoService.getRepos(username);
     }
@@ -44,7 +44,7 @@ public class RepoController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/shareRepo")
     public RepoDto shareRepo(@RequestBody RepoDto repoDto) {
-        LOGGER.debug("Entering RepoController:shareRepo");
+        LOGGER.info("Entering RepoController:shareRepo");
 
         return repoService.shareRepo(repoDto);
     }
@@ -56,7 +56,7 @@ public class RepoController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/getSharedRepos/{username}")
     public List<RepoDto> getSharedRepos(@PathVariable String username) {
-        LOGGER.debug("Entering RepoController:getSharedRepos");
+        LOGGER.info("Entering RepoController:getSharedRepos");
 
         return repoService.getSharedRepos(username);
     }

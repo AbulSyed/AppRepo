@@ -26,7 +26,7 @@ public class UserController {
      */
     @GetMapping("/getUser/{username}")
     public UserDto getUser(@PathVariable String username) {
-        LOGGER.debug("Entering UserController:getUser");
+        LOGGER.info("Entering UserController:getUser");
 
         return userService.getUserByUsername(username);
     }

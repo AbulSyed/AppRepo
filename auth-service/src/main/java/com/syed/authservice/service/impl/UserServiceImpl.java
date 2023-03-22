@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String getUserByToken(String accessToken) {
-        LOGGER.debug("Entering UserServiceImpl:getUserByToken");
+        LOGGER.info("Entering UserServiceImpl:getUserByToken");
 
         String url = "https://api.github.com/user";
 
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void saveUser(UserDto userDto, String accessToken) {
-        LOGGER.debug("Entering UserServiceImpl:saveUser");
+        LOGGER.info("Entering UserServiceImpl:saveUser");
 
         User user = new User();
         user.setUsername(userDto.getLogin());
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUserToken(String username, String accessToken) {
-        LOGGER.debug("Entering UserServiceImpl:updateUserToken");
+        LOGGER.info("Entering UserServiceImpl:updateUserToken");
 
         // find user by username and update his token
         User user = userRepository.findByUsername(username);
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDto getUserByUsername(String username) {
-        LOGGER.debug("Entering UserServiceImpl:getUserByUsername");
+        LOGGER.info("Entering UserServiceImpl:getUserByUsername");
 
         User user = userRepository.findByUsername(username);
         return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());

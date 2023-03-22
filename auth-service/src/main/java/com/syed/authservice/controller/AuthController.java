@@ -34,9 +34,9 @@ public class AuthController {
     @GetMapping("/user/signin/callback")
     public RedirectView callback(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {
-        LOGGER.debug("Entering AuthController:signin");
+        LOGGER.info("Entering AuthController:callback");
 
-        String name = authService.getUsername(code);
+        String name = authService.getAuthUsername(code);
 
         if (name != null) {
             Cookie cookie = AuthServiceUtility.createCookie(

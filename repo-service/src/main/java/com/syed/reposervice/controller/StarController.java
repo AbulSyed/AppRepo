@@ -26,7 +26,7 @@ public class StarController {
      */
     @PostMapping("/starRepo")
     public String starRepo(@RequestBody StarredRepoDto starredRepoDto) {
-        LOGGER.debug("Entering StarController:starRepo");
+        LOGGER.info("Entering StarController:starRepo");
 
         return starService.starRepo(starredRepoDto);
     }

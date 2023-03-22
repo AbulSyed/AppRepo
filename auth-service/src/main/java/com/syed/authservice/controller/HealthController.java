@@ -16,7 +16,7 @@ public class HealthController {
 
     @GetMapping("/health")
     public String health() {
-        LOGGER.debug("Entering HealthController:health");
+        LOGGER.info("Entering HealthController:health");
         
         return "Version " + pomVersion + " of Auth API service up";
     }

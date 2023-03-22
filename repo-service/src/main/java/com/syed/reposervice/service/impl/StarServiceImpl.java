@@ -31,7 +31,7 @@ public class StarServiceImpl implements StarService {
      */
     @Override
     public String starRepo(StarredRepoDto starredRepoDto) {
-        LOGGER.debug("Entering StarServiceImpl:starRepo");
+        LOGGER.info("Entering StarServiceImpl:starRepo");
 
         // check if repo exists
         Repo repo = repoRepository.findById(starredRepoDto.getRepoId()).orElseThrow(
@@ -42,7 +42,7 @@ public class StarServiceImpl implements StarService {
         boolean exists = starRepository.existsByRepoIdAndStarredBy(starredRepoDto.getRepoId(), starredRepoDto.getStarredBy());
 
         if (!exists) {
-            LOGGER.debug("Repo not starred yet - need to star");
+            LOGGER.info("Repo not starred yet - need to star");
             StarredRepo starredRepo = new StarredRepo();
             starredRepo.setRepo(repo);
             starredRepo.setStarredBy(starredRepoDto.getStarredBy());
@@ -51,7 +51,7 @@ public class StarServiceImpl implements StarService {
 
             return "Repo added to favourites";
         } else {
-            LOGGER.debug("Repo already starred - need to unstar");
+            LOGGER.info("Repo already starred - need to unstar");
             starRepository.deleteByRepoIdAndStarredBy(
                     starredRepoDto.getRepoId(),starredRepoDto.getStarredBy());
 

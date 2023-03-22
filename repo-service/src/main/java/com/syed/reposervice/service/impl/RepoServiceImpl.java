@@ -41,7 +41,7 @@ public class RepoServiceImpl implements RepoService {
      */
     @Override
     public UserRepo[] getRepos(String username) throws JsonProcessingException {
-        LOGGER.debug("Entering RepoServiceImpl:getRepos");
+        LOGGER.info("Entering RepoServiceImpl:getRepos");
 
         String url = "https://api.github.com/users/" + username + "/repos";
 
@@ -74,7 +74,7 @@ public class RepoServiceImpl implements RepoService {
      */
     @Override
     public RepoDto shareRepo(RepoDto repoDto) {
-        LOGGER.debug("Entering RepoServiceImpl:shareRepo");
+        LOGGER.info("Entering RepoServiceImpl:shareRepo");
 
         Repo repo = new Repo();
         repo.setName(repoDto.getName());
@@ -97,7 +97,7 @@ public class RepoServiceImpl implements RepoService {
      */
     @Override
     public List<RepoDto> getSharedRepos(String username) {
-        LOGGER.debug("Entering RepoServiceImpl:getSharedRepos");
+        LOGGER.info("Entering RepoServiceImpl:getSharedRepos");
 
         List<Repo> repos = repoRepository.findAll();
         List<RepoDto> repoDtos = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.syed.authservice.service.impl;
 
 import com.syed.authservice.dto.UserDto;
 import com.syed.authservice.entity.User;
+import com.syed.authservice.exception.NotFoundException;
 import com.syed.authservice.repository.UserRepository;
 import com.syed.authservice.service.UserService;
 import com.syed.authservice.utility.AuthServiceConstant;
@@ -28,13 +29,13 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * fetches user details based on access token
+     * fetches user details from GitHub API using auth token
+     * then saves or updates user in database
      * @param accessToken the token sent by GitHub auth
-     * @return the GitHub username
      */
     @Override
-    public String getUserByToken(String accessToken) {
-        LOGGER.info("Entering UserServiceImpl:getUserByToken");
+    public void saveOrUpdateUserToken(String accessToken) {
+        LOGGER.info("Entering UserServiceImpl:saveOrUpdateUserToken");
 
         String url = "https://api.github.com/user";
 
@@ -50,17 +51,14 @@ public class UserServiceImpl implements UserService {
         } else {
             updateUserToken(user.getLogin(), accessToken);
         }
-
-        return user.getLogin();
     }
 
     /**
-     * saved user to database
+     * saves user to database
      * @param userDto the user object sent from request
      * @param accessToken the users access token
      */
-    @Override
-    public void saveUser(UserDto userDto, String accessToken) {
+    private void saveUser(UserDto userDto, String accessToken) {
         LOGGER.info("Entering UserServiceImpl:saveUser");
 
         User user = new User();
@@ -78,8 +76,7 @@ public class UserServiceImpl implements UserService {
      * @param username the GitHub username
      * @param accessToken the token sent by GitHub auth
      */
-    @Override
-    public void updateUserToken(String username, String accessToken) {
+    private void updateUserToken(String username, String accessToken) {
         LOGGER.info("Entering UserServiceImpl:updateUserToken");
 
         // find user by username and update his token
@@ -99,6 +96,28 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Entering UserServiceImpl:getUserByUsername");
 
         User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new NotFoundException("Invalid GitHub username");
+        }
+
+        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());
+    }
+
+    /**
+     * gets user object using Token
+     * @param token the Token
+     * @return the user dto
+     */
+    @Override
+    public UserDto getUserByToken(String token) {
+        LOGGER.info("Entering UserServiceImpl:getUserByToken");
+
+        User user = userRepository.findByToken(token);
+
+        if (user == null) {
+            throw new NotFoundException("Token not associated with any user");
+        }
         return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());
     }
 }

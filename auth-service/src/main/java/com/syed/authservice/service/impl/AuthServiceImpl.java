@@ -32,18 +32,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * gets the logged-in user GitHub username
+     * gets auth token after user login
      * @param code the authorization code sent by GitHub retrieved from url
-     * @return the users GitHub username
+     * @return the auth token
      */
     @Override
-    public String getAuthUsername(String code) {
-        LOGGER.info("Entering AuthServiceImpl:getAuthUsername");
+    public String getAuthToken(String code) {
+        LOGGER.info("Entering AuthServiceImpl:getAuthToken");
 
         String accessToken = getAccessToken(code);
         if (accessToken != null) {
             LOGGER.info("access token is ok, auth passed");
-            return userService.getUserByToken(accessToken);
+            // we need to save token, as well as user info in db
+            userService.saveOrUpdateUserToken(accessToken);
+            return accessToken;
         } else {
             LOGGER.info("access token is null, auth failed");
             return null;
@@ -70,10 +72,13 @@ public class AuthServiceImpl implements AuthService {
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(data, headers);
 
+        // sending auth code to GitHub to get auth token
 //        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            // access token in the form access_token=ACCESS_TOKEN&scope=&token_type=bearer
+            // we need to extract token from string
             return AuthServiceUtility.extractAccessToken(response.getBody());
         }
         return null;

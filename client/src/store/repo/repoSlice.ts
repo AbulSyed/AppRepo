@@ -35,9 +35,13 @@ const initialState: InitialState = {
 }
 
 // fetches currently logged in users repositories
-export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (name: string, thunkAPI: any) => {
+export const fetchRepos = createAsyncThunk("repo/fetchRepos", async (data: {name: string, token: string | undefined}, thunkAPI: any) => {
   try {
-    const res = await api.get(`/reposervice/getRepos/${name}`);
+    const res = await api.get(`/reposervice/getRepos/${data.name}`, {
+      headers: {
+        Authorization: data.token,
+      }
+    });
     return res.data;
   } catch(err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });

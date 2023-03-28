@@ -15,7 +15,7 @@ import Uit from '../pages/CategoryPages/Uit';
 import Auth from '../pages/Auth/Auth';
 import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchUser } from '../store/user/userSlice';
+import { fetchUser, fetchUserByToken } from '../store/user/userSlice';
 import ServerError from '../pages/ServerError/ServerError';
 import { fetchRepos } from '../store/repo/repoSlice';
 import { fetchSharedRepos } from '../store/repo/repoSlice';
@@ -46,18 +46,24 @@ const MainLayout: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
-  // cookie sent from backend - contains GitHub username
-  const cookie = Cookies.get('userCookie');
+  // cookie sent from backend - contains GitHub auth token
+  const token = Cookies.get('token');
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
-    if (cookie) {
-      dispatch(fetchUser(cookie));
-      dispatch(fetchRepos(cookie));
-      dispatch(fetchSharedRepos(cookie));
+    if (token) {
+      // dispatch(fetchUser(token));
+      dispatch(fetchUserByToken(token));
     }
   }, []);
+
+  useEffect(() => {
+    if (user.login.length > 0 && token) {
+      dispatch(fetchRepos({name: user.login, token}));
+      dispatch(fetchSharedRepos(user.login));
+    }
+  }, [user]);
 
   return (
     <Layout
@@ -67,7 +73,7 @@ const MainLayout: React.FC = () => {
     >
       {
         // only show sidebar if user is logged in
-        cookie && (
+        token && (
           <Affix offsetTop={0} style={{ height: '100%', overflow: 'auto' }}>
             <Sider
               breakpoint="md"
@@ -107,7 +113,7 @@ const MainLayout: React.FC = () => {
         >
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             {
-              cookie && 
+              token && 
               (
                 <>
                   <h1 style={{marginLeft: '20px'}}>Welcome {user ? user.login : ''}</h1>
@@ -123,14 +129,14 @@ const MainLayout: React.FC = () => {
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Routes>
-            <Route path="/" element={cookie ? <Home /> : <Navigate to="/auth" />} />
+            <Route path="/" element={token ? <Home /> : <Navigate to="/auth" />} />
             {/* CATEGORY PAGES */}
-            <Route path="/uit" element={cookie ? <Uit /> : <Navigate to="/auth" />} />
+            <Route path="/uit" element={token ? <Uit /> : <Navigate to="/auth" />} />
             {/* CATEGORY PAGES */}
-            <Route path="/myrepos" element={cookie ? <MyRepos /> : <Navigate to="/auth" />} />
-            <Route path="/favourites" element={cookie ? <Favourites /> : <Navigate to="/auth" />} />
-            <Route path="/auth" element={!cookie ? <Auth /> : <Navigate to="/" />} />
-            <Route path="/500" element={!cookie ? <ServerError /> : <Navigate to="/" />} />
+            <Route path="/myrepos" element={token ? <MyRepos /> : <Navigate to="/auth" />} />
+            <Route path="/favourites" element={token ? <Favourites /> : <Navigate to="/auth" />} />
+            <Route path="/auth" element={!token ? <Auth /> : <Navigate to="/" />} />
+            <Route path="/500" element={!token ? <ServerError /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>

@@ -31,10 +31,11 @@ public class RepoController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("getRepos/{username}")
-    public UserRepo[] getRepos(@PathVariable String username) throws JsonProcessingException {
+    public UserRepo[] getRepos(@RequestHeader("Authorization") String authToken,
+                               @PathVariable String username) throws JsonProcessingException {
         LOGGER.info("Entering RepoController:getRepos");
 
-        return repoService.getRepos(username);
+        return repoService.getRepos(authToken, username);
     }
 
     /**

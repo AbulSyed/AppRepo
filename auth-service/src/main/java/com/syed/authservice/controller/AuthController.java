@@ -24,9 +24,9 @@ public class AuthController {
     }
 
     /**
-     * endpoint invoked by GitHub
-     * gets authorization code from url and uses to fetch and save user to database
-     * cookie sent to browser with username to then be used to make request to UserController
+     * endpoint invoked by GitHub after user submit login credentials, GitHub sends authorization code
+     * method gets authorization code from url and uses to fetch and save user to database
+     * cookie sent to browser with token to then be used to make request to UserController
      * @param code the authorization code sent by GitHub in url
      * @param response the HttpServletResponse containing cookie
      * @return the redirection to the React homepage after authentication
@@ -37,11 +37,12 @@ public class AuthController {
         long startTime = System.currentTimeMillis();
         LOGGER.info("Entering AuthController:callback");
 
-        String name = authService.getAuthUsername(code);
+        String token = authService.getAuthToken(code);
 
-        if (name != null) {
+        if (token != null) {
+            // sending auth token in cookie
             Cookie cookie = AuthServiceUtility.createCookie(
-                    "userCookie", name, 60000, false, "localhost", "/");
+                    "token", token, 60000, false, "localhost", "/");
             response.addCookie(cookie);
 
             long endTime = System.currentTimeMillis();

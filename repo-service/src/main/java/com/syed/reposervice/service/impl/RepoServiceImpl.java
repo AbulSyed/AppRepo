@@ -11,6 +11,7 @@ import com.syed.reposervice.exception.InternalServerErrorException;
 import com.syed.reposervice.exception.NotFoundException;
 import com.syed.reposervice.repository.RepoRepository;
 import com.syed.reposervice.service.RepoService;
+import com.syed.reposervice.utility.RepoServiceConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -24,7 +25,7 @@ import java.util.List;
 @Service
 public class RepoServiceImpl implements RepoService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepoService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepoServiceImpl.class);
 
     private final RestTemplate restTemplate;
     private final RepoRepository repoRepository;
@@ -41,12 +42,13 @@ public class RepoServiceImpl implements RepoService {
      * @throws JsonProcessingException
      */
     @Override
-    public UserRepo[] getRepos(String username) throws JsonProcessingException {
+    public UserRepo[] getRepos(String authToken, String username) throws JsonProcessingException {
         LOGGER.info("Entering RepoServiceImpl:getRepos");
 
         String url = "https://api.github.com/users/" + username + "/repos";
 
         HttpHeaders headers = new HttpHeaders();
+        headers.set(RepoServiceConstant.AUTHORIZATION, RepoServiceConstant.BEARER + authToken);
         HttpEntity entity = new HttpEntity(headers);
 
         try {
@@ -60,9 +62,7 @@ public class RepoServiceImpl implements RepoService {
                 LOGGER.error("User not found");
                 throw new NotFoundException("User not found");
             }
-            // TODO - GitHub API has a max request threshold
-            // if we make too many requests in an hour, GitHub blocks incoming requests
-            // https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting
+            LOGGER.error(ex.getMessage());
             LOGGER.warn("Error occurred while fetching user repositories");
             throw new InternalServerErrorException("Error occurred while fetching user repositories");
         }

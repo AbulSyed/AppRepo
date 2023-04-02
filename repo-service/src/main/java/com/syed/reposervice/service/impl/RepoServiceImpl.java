@@ -6,12 +6,12 @@ import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
 import com.syed.reposervice.dto.UsernameDto;
 import com.syed.reposervice.entity.Repo;
-import com.syed.reposervice.entity.StarredRepo;
 import com.syed.reposervice.exception.InternalServerErrorException;
 import com.syed.reposervice.exception.NotFoundException;
 import com.syed.reposervice.repository.RepoRepository;
 import com.syed.reposervice.service.RepoService;
 import com.syed.reposervice.utility.RepoServiceConstant;
+import com.syed.reposervice.utility.RepoServiceUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -125,17 +126,19 @@ public class RepoServiceImpl implements RepoService {
     /**
      * method to fetch starred repos by logged-in user
      * @param usernameDto the GitHub username
-     * @return list of starred repos by current user
+     * @return map of category with value as list of starred repos
      */
     @Override
-    public List<RepoDto> getStarredRepos(UsernameDto usernameDto) {
+    public Map<String, List<RepoDto>> getStarredRepos(UsernameDto usernameDto) {
         LOGGER.info("Entering RepoServiceImpl:getStarredRepos");
 
         List<RepoDto> repoDtos = getSharedRepos(usernameDto);
 
         // we only want repositories that have been starred by the current user
-        return repoDtos.stream()
+        List<RepoDto> starredRepos = repoDtos.stream()
                 .filter(repoDto -> repoDto.isStarred())
                 .collect(Collectors.toList());
+
+        return RepoServiceUtility.getCategoryRepoMap(starredRepos);
     }
 }

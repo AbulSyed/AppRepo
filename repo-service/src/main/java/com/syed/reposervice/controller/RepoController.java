@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RepoController {
@@ -66,11 +67,11 @@ public class RepoController {
     /**
      * gets repos starred by user
      * @param usernameDto the GitHub username
-     * @return list of repositories starred by user
+     * @return map of category with value as list of repositories starred by user
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/getStarredRepos")
-    public List<RepoDto> getStarredRepos(@RequestBody UsernameDto usernameDto) {
+    public Map<String, List<RepoDto>> getStarredRepos(@RequestBody UsernameDto usernameDto) {
         LOGGER.info("Entering RepoController:getStarredRepos");
 
         return repoService.getStarredRepos(usernameDto);

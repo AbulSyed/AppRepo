@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepoServiceImpl implements RepoService {
@@ -119,5 +120,22 @@ public class RepoServiceImpl implements RepoService {
         }
 
         return repoDtos;
+    }
+
+    /**
+     * method to fetch starred repos by logged-in user
+     * @param usernameDto the GitHub username
+     * @return list of starred repos by current user
+     */
+    @Override
+    public List<RepoDto> getStarredRepos(UsernameDto usernameDto) {
+        LOGGER.info("Entering RepoServiceImpl:getStarredRepos");
+
+        List<RepoDto> repoDtos = getSharedRepos(usernameDto);
+
+        // we only want repositories that have been starred by the current user
+        return repoDtos.stream()
+                .filter(repoDto -> repoDto.isStarred())
+                .collect(Collectors.toList());
     }
 }

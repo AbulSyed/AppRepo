@@ -62,4 +62,17 @@ public class RepoController {
 
         return repoService.getSharedRepos(usernameDto);
     }
+
+    /**
+     * gets repos starred by user
+     * @param usernameDto the GitHub username
+     * @return list of repositories starred by user
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/getStarredRepos")
+    public List<RepoDto> getStarredRepos(@RequestBody UsernameDto usernameDto) {
+        LOGGER.info("Entering RepoController:getStarredRepos");
+
+        return repoService.getStarredRepos(usernameDto);
+    }
 }

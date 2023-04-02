@@ -20,10 +20,14 @@ interface StarRepoDto {
   repoId: number;
 }
 
+interface StarredRepos extends SharedRepo {
+}
+
 interface InitialState {
   loading: boolean;
   repos: Repo[];
   sharedRepos: SharedRepo[];
+  starredRepos: StarredRepos[];
   error: string;
 }
 
@@ -31,6 +35,7 @@ const initialState: InitialState = {
   loading: false,
   repos: [],
   sharedRepos: [],
+  starredRepos: [],
   error: '',
 }
 
@@ -91,6 +96,25 @@ export const starRepo = createAsyncThunk("repo/starRepo", async (data: StarRepoD
   }
 });
 
+// fetches current users starred repositories
+export const fetchStarredRepos = createAsyncThunk("repo/fetchStarredRepos", async (name: string, thunkAPI: any) => {
+  try {
+    const res = await api.post(`/reposervice/getStarredRepos`, {
+      username: name
+    });
+
+    // adding key to each object since antd table needs key
+    let arr = [];
+    arr = res.data.map((obj: { id: any; }) => ({ ...obj, key: obj.id }));
+
+    console.log("fetchStarredRepos arr", arr)
+
+    return arr;
+  } catch(err: any) {
+    return thunkAPI.rejectWithValue({ message: err.message });
+  }
+});
+
 const repoSlice = createSlice({
   name: "repo",
   initialState,
@@ -145,6 +169,20 @@ const repoSlice = createSlice({
     builder.addCase(shareRepo.rejected, (state, action) => {
       state.loading = false;
       state.sharedRepos = [];
+      state.error = action.error.message || "Something went wrong...";
+    });
+    // fetching starred repos
+    builder.addCase(fetchStarredRepos.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchStarredRepos.fulfilled, (state, action) => {
+      state.loading = false;
+      state.starredRepos = action.payload;
+      state.error = '';
+    });
+    builder.addCase(fetchStarredRepos.rejected, (state, action) => {
+      state.loading = false;
+      state.starredRepos = [];
       state.error = action.error.message || "Something went wrong...";
     });
   },

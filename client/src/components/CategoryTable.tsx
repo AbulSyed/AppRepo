@@ -18,12 +18,10 @@ interface DataType {
 }
 
 interface CategoryTableProps {
-  category: string
+  sharedRepos: any
 }
 
-const CategoryTable: React.FC<CategoryTableProps> = ({ category }) => {
-  const sharedRepos = useAppSelector((state) => state.repo.sharedRepos);
-  const [dummyState, setDummyState] = useState(new Date());
+const CategoryTable: React.FC<CategoryTableProps> = ({ sharedRepos }) => {
   const state = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
@@ -42,15 +40,6 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ category }) => {
       content: message,
     });
   };
-
-  // console.log('sharedRepos===', sharedRepos);
-
-  // filtering by category
-  let filteredCategory = [];
-  filteredCategory = sharedRepos.filter(obj => obj.category == category);
-
-  // console.log('filteredCategory===', filteredCategory)
-  // console.table(filteredCategory)
 
   const handleStar = (record: DataType) => {
     const newRecord = { ...record, starred: !record.starred };
@@ -73,7 +62,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ category }) => {
   return (
     <>
       {contextHolder}
-      <Table dataSource={filteredCategory} style={{ marginTop: '2rem' }}>
+      <Table dataSource={sharedRepos} style={{ marginTop: '2rem' }}>
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Description" dataIndex="description" key="description" />
         <Column

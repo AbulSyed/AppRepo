@@ -1,9 +1,16 @@
 import CategoryTable from '../../components/CategoryTable';
+import { useAppSelector } from '../../store/hooks';
 
 const Uit: React.FC = () => {
+  const sharedRepos = useAppSelector((state) => state.repo.sharedRepos);
+
+  // filtering by category
+  let filteredCategory = [];
+  filteredCategory = sharedRepos.filter(obj => obj.category == "UIT");
+
   return (
     <div>
-      <CategoryTable category="UIT"/>
+      <CategoryTable sharedRepos={filteredCategory} />
     </div>
   )
 }

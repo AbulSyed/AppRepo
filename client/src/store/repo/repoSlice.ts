@@ -10,6 +10,7 @@ interface Repo {
 }
 
 interface SharedRepo extends Repo {
+  starred: boolean;
   category: string,
   tech: string[],
   id: number
@@ -106,6 +107,9 @@ export const starRepo = createAsyncThunk("repo/starRepo", async (data: StarRepoD
   }
 });
 
+/*
+  NOT IN USE
+*/
 // fetches current users starred repositories
 export const fetchStarredRepos = createAsyncThunk("repo/fetchStarredRepos", async (name: string, thunkAPI: any) => {
   try {

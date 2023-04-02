@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RepoService {
 
-    UserRepo[] getRepos(String username) throws JsonProcessingException;
+    UserRepo[] getRepos(String authToken, String username) throws JsonProcessingException;
     RepoDto shareRepo(RepoDto repoDto);
     List<RepoDto> getSharedRepos(UsernameDto usernameDto);
 }

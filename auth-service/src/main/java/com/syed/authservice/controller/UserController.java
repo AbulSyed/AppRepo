@@ -1,12 +1,11 @@
 package com.syed.authservice.controller;
 
+import com.syed.authservice.dto.TokenDto;
 import com.syed.authservice.dto.UserDto;
 import com.syed.authservice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -29,5 +28,17 @@ public class UserController {
         LOGGER.info("Entering UserController:getUser");
 
         return userService.getUserByUsername(username);
+    }
+
+    /**
+     * returns user dto using the Token
+     * @param token the users Token
+     * @return the user dto
+     */
+    @PostMapping("/getUser")
+    public UserDto getUserByToken(@RequestBody TokenDto token) {
+        LOGGER.info("Entering UserController:getUserByToken");
+
+        return userService.getUserByToken(token.getToken());
     }
 }

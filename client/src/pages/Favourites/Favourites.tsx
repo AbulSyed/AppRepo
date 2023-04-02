@@ -1,6 +1,11 @@
 import { Breadcrumb, Divider, Empty } from 'antd'
+import { useAppSelector } from "../../store/hooks";
 
 const Favourites: React.FC = () => {
+  const starredRepos = useAppSelector((state) => state.repo.starredRepos);
+
+  console.log(starredRepos)
+
   return (
     <div>
       <Breadcrumb

@@ -20,14 +20,24 @@ interface StarRepoDto {
   repoId: number;
 }
 
-interface StarredRepos extends SharedRepo {
+interface StarredRepos {
+  [key: string]: {
+    name: string;
+    html_url: string;
+    description: string;
+    clone_url: string;
+    language: string;
+    category: string;
+    tech: string[];
+    id: number;
+  }[];
 }
 
 interface InitialState {
   loading: boolean;
   repos: Repo[];
   sharedRepos: SharedRepo[];
-  starredRepos: StarredRepos[];
+  starredRepos: StarredRepos;
   error: string;
 }
 
@@ -35,7 +45,7 @@ const initialState: InitialState = {
   loading: false,
   repos: [],
   sharedRepos: [],
-  starredRepos: [],
+  starredRepos: {},
   error: '',
 }
 
@@ -103,13 +113,16 @@ export const fetchStarredRepos = createAsyncThunk("repo/fetchStarredRepos", asyn
       username: name
     });
 
-    // adding key to each object since antd table needs key
-    let arr = [];
-    arr = res.data.map((obj: { id: any; }) => ({ ...obj, key: obj.id }));
+    // need to add key to each object, as antd
+    // iterating over each key
+    Object.keys(res.data).forEach((el) => {
+      // iterating over each object and adding key prop
+      res.data[el].forEach((obj: { key: any; id: any; }) => {
+        obj.key = obj.id;
+      });
+    });
 
-    console.log("fetchStarredRepos arr", arr)
-
-    return arr;
+    return res.data;
   } catch(err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });
   }
@@ -182,7 +195,7 @@ const repoSlice = createSlice({
     });
     builder.addCase(fetchStarredRepos.rejected, (state, action) => {
       state.loading = false;
-      state.starredRepos = [];
+      state.starredRepos = {};
       state.error = action.error.message || "Something went wrong...";
     });
   },

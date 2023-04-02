@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchUser, fetchUserByToken } from '../store/user/userSlice';
 import ServerError from '../pages/ServerError/ServerError';
 import { fetchRepos } from '../store/repo/repoSlice';
-import { fetchSharedRepos } from '../store/repo/repoSlice';
+import { fetchSharedRepos, fetchStarredRepos } from '../store/repo/repoSlice';
 
 const { Header, Content, Sider } = Layout;
 
@@ -62,6 +62,7 @@ const MainLayout: React.FC = () => {
     if (user.login.length > 0 && token) {
       dispatch(fetchRepos({name: user.login, token}));
       dispatch(fetchSharedRepos(user.login));
+      dispatch(fetchStarredRepos(user.login));
     }
   }, [user]);
 

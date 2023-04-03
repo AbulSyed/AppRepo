@@ -35,8 +35,8 @@ API endpoints:
 ###### Callback endpoint
 
 - Endpoint invoked by GitHub after a user logs in
-- GitHub makes a GET request, passing a code in the request param
-- Code is then used to retrieve `access_token` from GitHub API
+- GitHub makes a GET request, passing a `code` in the request param
+- `Code` is then used to retrieve `access_token` from GitHub API
 
 ```
 @Get localhost:8080/user/signin/callback?code=__code here__

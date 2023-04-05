@@ -4,6 +4,7 @@ import {
   HomeOutlined,
   StarOutlined,
   UserOutlined,
+  SolutionOutlined,
 } from '@ant-design/icons';
 import { Affix, Layout, Menu, theme } from 'antd';
 import logo2 from '../assets/logo2.png';
@@ -19,6 +20,7 @@ import { fetchUser, fetchUserByToken } from '../store/user/userSlice';
 import ServerError from '../pages/ServerError/ServerError';
 import { fetchRepos } from '../store/repo/repoSlice';
 import { fetchSharedRepos, fetchStarredRepos } from '../store/repo/repoSlice';
+import Feedback from '../pages/Feedback/Feedback';
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,6 +39,11 @@ const items = [
     key: '/favourites',
     icon: <StarOutlined />,
     label: 'Favourites',
+  },
+  {
+    key: '/feedback',
+    icon: <SolutionOutlined />,
+    label: 'Feedback',
   },
 ];
 
@@ -136,6 +143,7 @@ const MainLayout: React.FC = () => {
             {/* CATEGORY PAGES */}
             <Route path="/myrepos" element={token ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={token ? <Favourites /> : <Navigate to="/auth" />} />
+            <Route path="/feedback" element={token ? <Feedback /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!token ? <Auth /> : <Navigate to="/" />} />
             <Route path="/500" element={!token ? <ServerError /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />

@@ -44,7 +44,7 @@ API endpoints:
 
 - Endpoint then saves user details into database containing the fields:
 
-```
+```json
 private String login;
 private String avatar_url;
 private String html_url;
@@ -60,7 +60,7 @@ private String repos_url;
 - Endpoint (2) requires `access_token`
 - Both endpoints make a call to database to fetch user information
 
-```
+```json
 (1) @Get localhost:8080/getUser/{username}
 
 (2) @Post localhost:8080/getUser
@@ -87,7 +87,7 @@ private String repos_url;
 - Response from GitHub API is then mapped to a POJO
 - @JsonIncludeProperties annotation used to include certain fields
 
-```
+```json
 @Get localhost:8081/getRepos/{username}
 
 > response is a list of objects
@@ -108,7 +108,7 @@ private String repos_url;
 
 - Endpoint which allows users to share their repositories
 
-```
+```json
 @Post localhost:8081/shareRepo
 
 > request body
@@ -150,7 +150,7 @@ private String repos_url;
 
 - Endpoint fetches all shared repositories from database
 
-```
+```json
 @Post localhost:8081/getSharedRepos
 
 > request body
@@ -184,7 +184,7 @@ private String repos_url;
 - Endpoint uses the previous endpoint and just returns repositorys `starred` by a user
 - Also formats to a map data structure
 
-```
+```json
 @Post localhost:8081/getStarredRepos
 
 > request body
@@ -211,7 +211,7 @@ Where key: Category (API, IAC, SCRIPT, etc.), value: list of repositories
 
 - Endpoint used to `star` / `unstar` a repository
 
-```
+```json
 @Post localhost:8081/starRepo
 
 > request body

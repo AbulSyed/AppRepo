@@ -54,9 +54,9 @@ const Suggestions: React.FC = () => {
               placeholder="Select a area"
               allowClear
             >
-              <Option value="Suggestion">Suggestion</Option>
-              <Option value="Issue">Issue</Option>
-              <Option value="Other">Other</Option>
+              <Option value="SUGGESTION">Suggestion</Option>
+              <Option value="ISSUE">Issue</Option>
+              <Option value="OTHER">Other</Option>
             </Select>
           </Form.Item>
           <Form.Item name={['comment']} label="Comment"  rules={[{ required: true }]}>

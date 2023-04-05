@@ -34,6 +34,39 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       # was causing alot of errors and taking a long time to connect to db - so added allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_PASSWORD: my-secret-pw
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - mysql-service
+      - eureka-server
+      - gateway-server
+    restart: always
+
+  repo-service:
+    image: app-repo/repo-service:latest
+    build: ./repo-service
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_PASSWORD: my-secret-pw
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - mysql-service
+      - eureka-server
+      - gateway-server
+    restart: always
+
+  feedback-service:
+    image: app-repo/feedback-service:latest
+    build: ./feedback-service
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_PASSWORD: my-secret-pw
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_PROFILES_ACTIVE: dev
     depends_on:
@@ -48,5 +81,5 @@ services:
     ports:
       - 3000:3000
     environment:
-      VITE_SOME_KEY: hello world
+      # VITE_SOME_KEY: hello world
     restart: always

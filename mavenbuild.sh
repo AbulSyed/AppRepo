@@ -18,3 +18,8 @@ echo "building repo-service"
 cd ./repo-service
 mvn clean install
 cd ..
+
+echo "building feedback-service"
+cd ./feedback-service
+mvn clean install
+cd ..

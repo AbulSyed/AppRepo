@@ -4,6 +4,7 @@ services:
   mysql-service:
     image: app-repo/mysql_db:latest
     build: ./mysql
+    container_name: mysql-service
     ports:
       - 3306:3306
     restart: always
@@ -11,6 +12,7 @@ services:
   eureka-server:
     image: app-repo/eureka-server:latest
     build: ./eureka-server
+    container_name: eureka-server
     ports:
       - 8761:8761
     restart: always
@@ -18,10 +20,11 @@ services:
   gateway-server:
     image: app-repo/gateway-server:latest
     build: ./gateway-server
+    container_name: gateway-server
     ports:
       - 2222:2222
     environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "${EUREKA_ENDPOINT}"
     depends_on:
       - eureka-server
     restart: always
@@ -29,13 +32,13 @@ services:
   auth-service:
     image: app-repo/auth-service:latest
     build: ./auth-service
+    container_name: auth-service
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      # was causing alot of errors and taking a long time to connect to db - so added allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_PASSWORD: my-secret-pw
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_DATASOURCE_URL: "${DATABASE_URL}"
+      SPRING_DATASOURCE_PASSWORD: "${DATABASE_PASSWORD}"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "${EUREKA_ENDPOINT}"
       SPRING_PROFILES_ACTIVE: dev
     depends_on:
       - mysql-service
@@ -46,12 +49,13 @@ services:
   repo-service:
     image: app-repo/repo-service:latest
     build: ./repo-service
+    container_name: repo-service
     ports:
       - 8081:8081
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_PASSWORD: my-secret-pw
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_DATASOURCE_URL: "${DATABASE_URL}"
+      SPRING_DATASOURCE_PASSWORD: "${DATABASE_PASSWORD}"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "${EUREKA_ENDPOINT}"
       SPRING_PROFILES_ACTIVE: dev
     depends_on:
       - mysql-service
@@ -62,12 +66,13 @@ services:
   feedback-service:
     image: app-repo/feedback-service:latest
     build: ./feedback-service
+    container_name: feedback-service
     ports:
       - 8082:8082
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/apprepo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_PASSWORD: my-secret-pw
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_DATASOURCE_URL: "${DATABASE_URL}"
+      SPRING_DATASOURCE_PASSWORD: "${DATABASE_PASSWORD}"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "${EUREKA_ENDPOINT}"
       SPRING_PROFILES_ACTIVE: dev
     depends_on:
       - mysql-service
@@ -78,8 +83,9 @@ services:
   client-app:
     image: app-repo/client-react-app
     build: ./client
+    container_name: client-app
     ports:
       - 3000:3000
-    environment:
+    # environment:
       # VITE_SOME_KEY: hello world
     restart: always

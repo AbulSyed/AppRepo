@@ -132,5 +132,5 @@ API endpoints:
 - Endpoint lets admins to comment on a feedback
 
 ```
-@Put localhost:8082/addComment/{feedbackId}
+@Post localhost:8082/addComment/{feedbackId}
 ```

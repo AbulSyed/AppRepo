@@ -1,5 +1,7 @@
-import { Breadcrumb, Card, Divider, Button, Form, Input, Select, InputNumber, Space } from 'antd';
+import { Breadcrumb, Card, Divider, Button, Form, Input, Select, message } from 'antd';
 const { Option } = Select;
+import { useAppDispatch } from "../../store/hooks";
+import { shareFeedback } from '../../store/feedback/feedbackSlice';
 
 const layout = {
   labelCol: { span: 8 },
@@ -12,13 +14,40 @@ const validateMessages = {
 };
 /* eslint-enable no-template-curly-in-string */
 
-const onFinish = (values: any) => {
-  console.log(values);
-};
-
 const Suggestions: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = (message: string) => {
+    messageApi.open({
+      type: 'success',
+      content: message,
+    });
+  };
+
+  const error = (message: string) => {
+    messageApi.open({
+      type: 'error',
+      content: message,
+    });
+  };
+
+  const dispatch = useAppDispatch();
+
+  const onFinish = (values: any) => {
+    dispatch(shareFeedback(values)).then(action => {
+      // console.log(action);
+      if (action.type === 'feedback/shareFeedback/fulfilled') {
+        success(action.payload);
+      } else if (action.type === 'feedback/shareFeedback/rejected') {
+        error(action.payload.message);
+      }
+    });
+  };
+
   return (
     <div>
+      {contextHolder}
+
       <Breadcrumb
         style={{
           margin: '16px 0',
@@ -59,7 +88,7 @@ const Suggestions: React.FC = () => {
               <Option value="OTHER">Other</Option>
             </Select>
           </Form.Item>
-          <Form.Item name={['comment']} label="Comment"  rules={[{ required: true }]}>
+          <Form.Item name={['message']} label="Message"  rules={[{ required: true }]}>
             <Input.TextArea />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

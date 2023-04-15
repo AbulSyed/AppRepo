@@ -110,7 +110,7 @@ API endpoints:
 - Users can invoke this endpoint to share feedback on the app
 
 ```
-@Post localhost:8082/feedback
+@Post localhost:8082/shareFeedback
 ```
 
 ###### Get all feedback

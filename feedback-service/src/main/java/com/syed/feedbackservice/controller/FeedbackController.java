@@ -27,7 +27,7 @@ public class FeedbackController {
      * @return string method that feedback has been shared
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/feedback")
+    @PostMapping("/shareFeedback")
     public String postFeedback(@RequestBody FeedbackDto feedbackDto) {
         LOGGER.info("Entering FeedbackController:postFeedback");
 

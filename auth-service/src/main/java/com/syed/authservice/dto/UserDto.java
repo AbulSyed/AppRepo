@@ -6,15 +6,17 @@ public class UserDto {
     private String avatar_url;
     private String html_url;
     private String repos_url;
+    private boolean isAdmin;
 
     public UserDto() {
     }
 
-    public UserDto(String login, String avatar_url, String html_url, String repos_url) {
+    public UserDto(String login, String avatar_url, String html_url, String repos_url, boolean isAdmin) {
         this.login = login;
         this.avatar_url = avatar_url;
         this.html_url = html_url;
         this.repos_url = repos_url;
+        this.isAdmin = isAdmin;
     }
 
     public String getLogin() {
@@ -49,6 +51,10 @@ public class UserDto {
         this.repos_url = repos_url;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -56,6 +62,7 @@ public class UserDto {
                 ", avatar_url='" + avatar_url + '\'' +
                 ", html_url='" + html_url + '\'' +
                 ", repos_url='" + repos_url + '\'' +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

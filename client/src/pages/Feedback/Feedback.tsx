@@ -53,7 +53,7 @@ const Suggestions: React.FC = () => {
           margin: '16px 0',
         }}
       >
-        <Breadcrumb.Item>Suggestions</Breadcrumb.Item>
+        <Breadcrumb.Item>Feedback</Breadcrumb.Item>
       </Breadcrumb>
 
       <Divider />

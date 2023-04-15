@@ -5,6 +5,7 @@ import {
   StarOutlined,
   UserOutlined,
   SolutionOutlined,
+  IdcardOutlined,
 } from '@ant-design/icons';
 import { Affix, Layout, Menu, theme } from 'antd';
 import logo2 from '../assets/logo2.png';
@@ -21,6 +22,7 @@ import ServerError from '../pages/ServerError/ServerError';
 import { fetchRepos } from '../store/repo/repoSlice';
 import { fetchSharedRepos, fetchStarredRepos } from '../store/repo/repoSlice';
 import Feedback from '../pages/Feedback/Feedback';
+import Admin from '../pages/Admin/Admin';
 
 const { Header, Content, Sider } = Layout;
 
@@ -45,6 +47,11 @@ const items = [
     icon: <SolutionOutlined />,
     label: 'Feedback',
   },
+  {
+    key: '/admin',
+    icon: <IdcardOutlined />,
+    label: 'Admin',
+  },
 ];
 
 const MainLayout: React.FC = () => {
@@ -58,6 +65,14 @@ const MainLayout: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
 
+  const showLastObject = (items: any, isAdmin: boolean) => {
+    if (isAdmin) {
+      return items;
+    } else {
+      return items.filter((el: { label: string; }) => el.label !== "Admin");
+    }
+  }
+  
   useEffect(() => {
     if (token) {
       // dispatch(fetchUser(token));
@@ -104,7 +119,7 @@ const MainLayout: React.FC = () => {
                 theme="dark"
                 defaultSelectedKeys={[window.location.pathname]}
                 mode="inline"
-                items={items}
+                items={showLastObject(items, user.admin)}
                 onClick={(item) => navigate(item.key)}
               />
             </Sider>
@@ -144,6 +159,10 @@ const MainLayout: React.FC = () => {
             <Route path="/myrepos" element={token ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={token ? <Favourites /> : <Navigate to="/auth" />} />
             <Route path="/feedback" element={token ? <Feedback /> : <Navigate to="/auth" />} />
+            {
+              user.admin && 
+              <Route path="/admin" element={token ? <Admin /> : <Navigate to="/auth" />} />
+            }
             <Route path="/auth" element={!token ? <Auth /> : <Navigate to="/" />} />
             <Route path="/500" element={!token ? <ServerError /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />

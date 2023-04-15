@@ -5,7 +5,8 @@ type User = {
   login: string,
   avatar_url: string,
   html_url: string,
-  repos_url: string
+  repos_url: string,
+  admin: boolean,
 }
 
 type InitialState = {
@@ -20,7 +21,8 @@ const initialState: InitialState = {
     login: '',
     avatar_url: '',
     html_url: '',
-    repos_url: ''
+    repos_url: '',
+    admin: false,
   },
   error: '',
 }
@@ -62,7 +64,8 @@ const userSlice = createSlice({
         login: '',
         avatar_url: '',
         html_url: '',
-        repos_url: ''
+        repos_url: '',
+        admin: false,
       };
       state.error = action.error.message || "Something went wrong...";
     });
@@ -80,7 +83,8 @@ const userSlice = createSlice({
         login: '',
         avatar_url: '',
         html_url: '',
-        repos_url: ''
+        repos_url: '',
+        admin: false,
       };
       state.error = action.error.message || "Something went wrong...";
     });

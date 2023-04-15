@@ -16,17 +16,19 @@ public class User {
     private String githubUrl;
     private String repoUrl;
     private String token;
+    private boolean isAdmin;
 
     public User() {
     }
 
-    public User(Long id, String username, String avatarUrl, String githubUrl, String repoUrl, String token) {
+    public User(Long id, String username, String avatarUrl, String githubUrl, String repoUrl, String token, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.githubUrl = githubUrl;
         this.repoUrl = repoUrl;
         this.token = token;
+        this.isAdmin = isAdmin;
     }
 
     public Long getId() {
@@ -75,5 +77,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

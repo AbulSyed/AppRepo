@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
         user.setGithubUrl(userDto.getHtml_url());
         user.setRepoUrl(userDto.getRepos_url());
         user.setToken(accessToken);
+        user.setAdmin(false);
 
         userRepository.save(user);
     }
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Invalid GitHub username");
         }
 
-        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());
+        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl(), user.isAdmin());
     }
 
     /**
@@ -118,6 +119,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new NotFoundException("Token not associated with any user");
         }
-        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl());
+        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl(), user.isAdmin());
     }
 }

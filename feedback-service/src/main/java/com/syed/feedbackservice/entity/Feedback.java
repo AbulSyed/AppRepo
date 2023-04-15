@@ -2,10 +2,9 @@ package com.syed.feedbackservice.entity;
 
 import com.syed.feedbackservice.enumeration.AreaEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Feedback {
@@ -14,15 +13,22 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private AreaEnum area;
-    private String comment;
+    private String message;
+    private boolean resolved;
+    @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+    private LocalDateTime dateTime;
 
     public Feedback() {
     }
 
-    public Feedback(Long id, AreaEnum area, String comment) {
+    public Feedback(Long id, AreaEnum area, String message, boolean resolved, List<Comment> comments, LocalDateTime dateTime) {
         this.id = id;
         this.area = area;
-        this.comment = comment;
+        this.message = message;
+        this.resolved = resolved;
+        this.comments = comments;
+        this.dateTime = dateTime;
     }
 
     public Long getId() {
@@ -41,20 +47,35 @@ public class Feedback {
         this.area = area;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "Feedback{" +
-                "id=" + id +
-                ", area=" + area +
-                ", comment='" + comment + '\'' +
-                '}';
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

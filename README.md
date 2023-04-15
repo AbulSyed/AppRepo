@@ -102,3 +102,35 @@ API endpoints:
 ```
 @Post localhost:8081/starRepo
 ```
+
+##### Feedback Service
+
+###### Share feedback
+
+- Users can invoke this endpoint to share feedback on the app
+
+```
+@Post localhost:8082/feedback
+```
+
+###### Get all feedback
+
+```
+@Get localhost:8082/feedback
+```
+
+###### Update feedback 'resolved' status
+
+- Endpoint to allow admins to update the boolean 'resolved' status
+
+```
+@Put localhost:8082/feedback/{feedbackId}
+```
+
+###### Add comment to feedback
+
+- Endpoint lets admins to comment on a feedback
+
+```
+@Put localhost:8082/addComment/{feedbackId}
+```

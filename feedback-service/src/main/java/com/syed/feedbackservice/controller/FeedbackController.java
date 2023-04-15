@@ -30,6 +30,7 @@ public class FeedbackController {
     @PostMapping("/feedback")
     public String postFeedback(@RequestBody FeedbackDto feedbackDto) {
         LOGGER.info("Entering FeedbackController:postFeedback");
+
         return feedbackService.postFeedback(feedbackDto);
     }
 
@@ -41,6 +42,21 @@ public class FeedbackController {
     @GetMapping("/feedback")
     public Map<String, List<FeedbackDto>> getFeedback() {
         LOGGER.info("Entering FeedbackController:getFeedback");
+
         return feedbackService.getFeedback();
+    }
+
+    /**
+     * endpoint which allows admins to update 'resolved' status
+     * @param feedbackId the feedback identifier
+     * @param feedbackDto the update object
+     * @return the updated feedback object
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/feedback/{feedbackId}")
+    public FeedbackDto updateFeedback(@PathVariable Long feedbackId, @RequestBody FeedbackDto feedbackDto) {
+        LOGGER.info("Entering FeedbackController:updateFeedback");
+
+        return feedbackService.updateFeedback(feedbackId, feedbackDto.isResolved());
     }
 }

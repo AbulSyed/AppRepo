@@ -9,4 +9,5 @@ public interface FeedbackService {
 
     String postFeedback(FeedbackDto feedbackDto);
     Map<String, List<FeedbackDto>> getFeedback();
+    FeedbackDto updateFeedback(Long feedbackId, boolean status);
 }

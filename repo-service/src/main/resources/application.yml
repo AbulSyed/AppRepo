@@ -16,6 +16,11 @@ spring:
       ddl-auto: update
   profiles:
     active: dev
+  # springfox-boot-starter crashing server
+  # https://stackoverflow.com/questions/40241843/failed-to-start-bean-documentationpluginsbootstrapper-in-spring-data-rest
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 eureka:
   instance:

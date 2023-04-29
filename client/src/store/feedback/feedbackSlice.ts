@@ -75,6 +75,16 @@ export const getFeedback = createAsyncThunk("feedback/getFeedback", async () => 
   }
 });
 
+export const updateFeedbackResolvedStatusApiRequest = createAsyncThunk("feedback/updateFeedbackResolvedStatus", async (data: any, is: any) => {
+  try {
+    await api.put(`/feedbackservice/feedback/${data.id}`, {
+      resolved: !data.resolved
+    });
+  } catch (err: any) {
+    return err.message;
+  }
+});
+
 const feedbackSlice = createSlice({
   name: "feedback",
   initialState,

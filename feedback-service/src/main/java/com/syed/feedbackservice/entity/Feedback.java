@@ -14,6 +14,8 @@ public class Feedback {
     private Long id;
     private AreaEnum area;
     private String message;
+    private String author;
+    private String authorImg;
     private boolean resolved;
     @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL)
     private List<Comment> comments;
@@ -22,10 +24,12 @@ public class Feedback {
     public Feedback() {
     }
 
-    public Feedback(Long id, AreaEnum area, String message, boolean resolved, List<Comment> comments, LocalDateTime dateTime) {
+    public Feedback(Long id, AreaEnum area, String message, String author, String authorImg, boolean resolved, List<Comment> comments, LocalDateTime dateTime) {
         this.id = id;
         this.area = area;
         this.message = message;
+        this.author = author;
+        this.authorImg = authorImg;
         this.resolved = resolved;
         this.comments = comments;
         this.dateTime = dateTime;
@@ -53,6 +57,22 @@ public class Feedback {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getAuthorImg() {
+        return authorImg;
+    }
+
+    public void setAuthorImg(String authorImg) {
+        this.authorImg = authorImg;
     }
 
     public boolean isResolved() {

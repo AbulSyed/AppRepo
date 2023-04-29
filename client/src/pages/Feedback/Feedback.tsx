@@ -1,6 +1,6 @@
 import { Breadcrumb, Card, Divider, Button, Form, Input, Select, message } from 'antd';
 const { Option } = Select;
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { shareFeedback } from '../../store/feedback/feedbackSlice';
 
 const layout = {
@@ -15,6 +15,7 @@ const validateMessages = {
 /* eslint-enable no-template-curly-in-string */
 
 const Suggestions: React.FC = () => {
+  const user = useAppSelector((state) => state.user.user);
   const [messageApi, contextHolder] = message.useMessage();
 
   const success = (message: string) => {
@@ -34,7 +35,8 @@ const Suggestions: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
-    dispatch(shareFeedback(values)).then(action => {
+    const data = {...values, author: user.login, authorImg: user.avatar_url};
+    dispatch(shareFeedback(data)).then(action => {
       // console.log(action);
       if (action.type === 'feedback/shareFeedback/fulfilled') {
         success(action.payload);

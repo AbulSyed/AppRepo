@@ -12,6 +12,8 @@ interface AdminListProps {
     comments: any;
     dateTime: string;
     message: string;
+    author: string;
+    authorImg: string;
     resolved: boolean;
   }[]
 }
@@ -26,8 +28,8 @@ const AdminList: React.FC<AdminListProps> = ({ data }) => {
             actions={item.resolved ? [<CheckOutlined />] : [<ExclamationOutlined />]}
           >
           <List.Item.Meta
-            avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />}
-            title={"Abul Syed"}
+            avatar={<Avatar src={item.authorImg} />}
+            title={item.author}
             description={item.message}
           />
           <div>

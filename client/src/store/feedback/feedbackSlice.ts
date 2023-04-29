@@ -22,6 +22,8 @@ interface FeedbackMap {
     id: number,
     area: 'ISSUE',
     message: string,
+    author: string,
+    authorImg: string,
     resolved: boolean,
     comments: [],
     dateTime: string
@@ -30,6 +32,8 @@ interface FeedbackMap {
     id: number,
     area: 'SUGGESTION',
     message: string,
+    author: string,
+    authorImg: string,
     resolved: boolean,
     comments: [],
     dateTime: string
@@ -38,6 +42,8 @@ interface FeedbackMap {
     id: number,
     area: 'OTHER',
     message: string,
+    author: string,
+    authorImg: string,
     resolved: boolean,
     comments: [],
     dateTime: string

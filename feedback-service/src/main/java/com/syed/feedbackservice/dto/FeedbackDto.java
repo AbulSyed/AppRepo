@@ -10,6 +10,8 @@ public class FeedbackDto {
     private Long id;
     private AreaEnum area;
     private String message;
+    private String author;
+    private String authorImg;
     private boolean resolved;
     private List<CommentDto> comments;
     private LocalDateTime dateTime;
@@ -17,10 +19,12 @@ public class FeedbackDto {
     public FeedbackDto() {
     }
 
-    public FeedbackDto(Long id, AreaEnum area, String message, boolean resolved, List<CommentDto> comments, LocalDateTime dateTime) {
+    public FeedbackDto(Long id, AreaEnum area, String message, String author, String authorImg, boolean resolved, List<CommentDto> comments, LocalDateTime dateTime) {
         this.id = id;
         this.area = area;
         this.message = message;
+        this.author = author;
+        this.authorImg = authorImg;
         this.resolved = resolved;
         this.comments = comments;
         this.dateTime = dateTime;
@@ -48,6 +52,22 @@ public class FeedbackDto {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getAuthorImg() {
+        return authorImg;
+    }
+
+    public void setAuthorImg(String authorImg) {
+        this.authorImg = authorImg;
     }
 
     public boolean isResolved() {

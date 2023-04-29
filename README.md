@@ -2,18 +2,22 @@
 
 ### Purpose
 
-Application enabling code share and re-use. Users can login using their GitHub credentials to share, find & discover repositories.
+Users can login using their GitHub account to share, find & discover repositories.
 
 ### Architecture overview
 
 ```
                                      |----------|     |--------------|
                                |-----| AUTH API |-----| GITHUB OAUTH |
-|--------|     |---------|     |     |----------|     |--------------|
-| Client |-----| GATEWAY |-----|
+                               |     |----------|     |--------------|
+                               |
 |--------|     |---------|     |     |----------|
-                               |-----| REPO API |
-                                     |----------|
+| Client |-----| GATEWAY |-----|-----| REPO API |
+|--------|     |---------|     |     |----------|
+                               |
+                               |     |--------------|
+                               |-----| FEEDBACK API |
+                                     |--------------|
 ```
 
 ### Technologies

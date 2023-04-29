@@ -39,7 +39,7 @@ public class FeedbackController {
      * @return feedback as map
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/feedback")
+    @GetMapping("/getFeedback")
     public Map<String, List<FeedbackDto>> getFeedback() {
         LOGGER.info("Entering FeedbackController:getFeedback");
 

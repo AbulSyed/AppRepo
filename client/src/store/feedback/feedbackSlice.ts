@@ -3,14 +3,45 @@ import api from "../../api/api";
 
 const initialState: InitialState = {
   loading: false,
-  feedback: {},
+  feedback: {
+    "ISSUE": [],
+    "SUGGESTION": [],
+    "OTHER": [],
+  },
   error: '',
 };
 
 interface InitialState {
   loading: boolean;
-  feedback: {};
+  feedback: FeedbackMap;
   error: string;
+}
+
+interface FeedbackMap {
+  "ISSUE": {
+    id: number,
+    area: 'ISSUE',
+    message: string,
+    resolved: boolean,
+    comments: [],
+    dateTime: string
+  }[],
+  "SUGGESTION": {
+    id: number,
+    area: 'SUGGESTION',
+    message: string,
+    resolved: boolean,
+    comments: [],
+    dateTime: string
+  }[],
+  "OTHER": {
+    id: number,
+    area: 'OTHER',
+    message: string,
+    resolved: boolean,
+    comments: [],
+    dateTime: string
+  }[],
 }
 
 interface Feedback {
@@ -22,11 +53,19 @@ export const shareFeedback = createAsyncThunk("feedback/shareFeedback", async (d
   try {
     const res = await api.post(`/feedbackservice/shareFeedback`, data);
 
-    console.log(res.data);
-
     return res.data;
   } catch (err: any) {
     return thunkAPI.rejectWithValue({ message: err.message });
+  }
+});
+
+export const getFeedback = createAsyncThunk("feedback/getFeedback", async () => {
+  try {
+    const res = await api.get(`/feedbackservice/getFeedback`);
+
+    return res.data;
+  } catch (err: any) {
+    return err.message;
   }
 });
 
@@ -35,19 +74,23 @@ const feedbackSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(shareFeedback.pending, (state) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(shareFeedback.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.feedback = action.payload;
-    //   state.error = '';
-    // });
-    // builder.addCase(shareFeedback.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.feedback = [];
-    //   state.error = action.error.message || "Something went wrong";
-    // });
+    builder.addCase(getFeedback.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getFeedback.fulfilled, (state, action) => {
+      state.loading = false;
+      state.feedback = action.payload;
+      state.error = '';
+    });
+    builder.addCase(getFeedback.rejected, (state, action) => {
+      state.loading = false;
+      state.feedback = {
+        "ISSUE": [],
+        "SUGGESTION": [],
+        "OTHER": [],
+      };
+      state.error = action.error.message || "Something went wrong";
+    });
   },
 });
 

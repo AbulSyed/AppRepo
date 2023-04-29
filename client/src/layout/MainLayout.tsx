@@ -23,6 +23,7 @@ import { fetchRepos } from '../store/repo/repoSlice';
 import { fetchSharedRepos, fetchStarredRepos } from '../store/repo/repoSlice';
 import Feedback from '../pages/Feedback/Feedback';
 import Admin from '../pages/Admin/Admin';
+import { getFeedback } from "../store/feedback/feedbackSlice";
 
 const { Header, Content, Sider } = Layout;
 
@@ -87,6 +88,12 @@ const MainLayout: React.FC = () => {
       dispatch(fetchStarredRepos(user.login));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user.admin) {
+      dispatch(getFeedback());
+    }
+  }, [user])
 
   return (
     <Layout

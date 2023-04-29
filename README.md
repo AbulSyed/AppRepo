@@ -116,7 +116,7 @@ API endpoints:
 ###### Get all feedback
 
 ```
-@Get localhost:8082/feedback
+@Get localhost:8082/getFeedback
 ```
 
 ###### Update feedback 'resolved' status

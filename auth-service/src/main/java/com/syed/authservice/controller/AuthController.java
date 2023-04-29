@@ -2,6 +2,10 @@ package com.syed.authservice.controller;
 
 import com.syed.authservice.service.AuthService;
 import com.syed.authservice.utility.AuthServiceUtility;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+@Api(value = "Auth controller exposes a callback endpoint")
 @RestController
 public class AuthController {
 
@@ -31,6 +36,13 @@ public class AuthController {
      * @param response the HttpServletResponse containing cookie
      * @return the redirection to the React homepage after authentication
      */
+    @ApiOperation(value = "Callback endpoint invoked by GitHub after a user login, GitHub sends authorization code, which is used to fetch user info")
+    @ApiResponses({
+            @ApiResponse(
+                    code = 200,
+                    message = "OK"
+            )
+    })
     @GetMapping("/user/signin/callback")
     public RedirectView callback(@RequestParam(value = "code") String code,
                                HttpServletResponse response) {

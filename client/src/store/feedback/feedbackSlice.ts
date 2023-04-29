@@ -78,7 +78,19 @@ export const getFeedback = createAsyncThunk("feedback/getFeedback", async () => 
 const feedbackSlice = createSlice({
   name: "feedback",
   initialState,
-  reducers: {},
+  reducers: {
+    updateFeedbackResolvedStatus(state, action) {
+      state.feedback[action.payload.area] = state.feedback[action.payload.area].map(feedback => {
+        if (feedback.id == action.payload.id) {
+          return {
+            ...feedback,
+            "resolved": !feedback.resolved,
+          };
+        }
+        return feedback;
+      })
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getFeedback.pending, (state) => {
       state.loading = true;
@@ -101,3 +113,4 @@ const feedbackSlice = createSlice({
 });
 
 export default feedbackSlice.reducer;
+export const { updateFeedbackResolvedStatus } = feedbackSlice.actions;

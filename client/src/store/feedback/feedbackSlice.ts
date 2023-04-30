@@ -75,11 +75,24 @@ export const getFeedback = createAsyncThunk("feedback/getFeedback", async () => 
   }
 });
 
-export const updateFeedbackResolvedStatusApiRequest = createAsyncThunk("feedback/updateFeedbackResolvedStatus", async (data: any, is: any) => {
+export const updateFeedbackResolvedStatusApiRequest = createAsyncThunk("feedback/updateFeedbackResolvedStatus", async (data: any) => {
   try {
     await api.put(`/feedbackservice/feedback/${data.id}`, {
       resolved: !data.resolved
     });
+  } catch (err: any) {
+    return err.message;
+  }
+});
+
+export const addComment = createAsyncThunk("feedback/addComment", async (data: any) => {
+  try {
+    const res = await api.post(`/feedbackservice/addComment/${data.id}`, {
+      author: data.author,
+      message: data.message
+    });
+
+    return {...res.data, area: data.area, postId: data.id};
   } catch (err: any) {
     return err.message;
   }
@@ -119,6 +132,28 @@ const feedbackSlice = createSlice({
       };
       state.error = action.error.message || "Something went wrong";
     });
+    builder.addCase(addComment.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(addComment.fulfilled, (state, action) => {
+      state.loading = false;
+      state.feedback[action.payload.area].find(el => {
+        if (el.id == action.payload.postId) {
+          // ideally to clean the payload to match, only required data
+          el.comments.push(action.payload);
+        }
+      })
+      state.error = '';
+    });
+    // builder.addCase(addComment.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.feedback = {
+    //     "ISSUE": [],
+    //     "SUGGESTION": [],
+    //     "OTHER": [],
+    //   };
+    //   state.error = action.error.message || "Something went wrong";
+    // });
   },
 });
 

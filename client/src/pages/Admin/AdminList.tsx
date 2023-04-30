@@ -6,8 +6,9 @@ import {
   CheckOutlined,
 } from '@ant-design/icons';
 import { updateFeedbackResolvedStatus, updateFeedbackResolvedStatusApiRequest } from '../../store/feedback/feedbackSlice';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Comment from '../../components/Comment';
+import { addComment } from '../../store/feedback/feedbackSlice';
 
 interface AdminListProps {
   data: {
@@ -40,7 +41,7 @@ const AdminList: React.FC<AdminListProps> = ({ data }) => {
       renderItem={(item, index) => (
         <>
           <List.Item
-              actions={item.resolved ? [<CheckOutlined />, <FormButton btnMessage="Add comment" />] : [<ExclamationOutlined />, <button>Add comment</button>]}
+              actions={item.resolved ? [<CheckOutlined />, <FormButton btnMessage="Add comment" id={item.id} area={item.area} />] : [<ExclamationOutlined />, <FormButton btnMessage="Add comment" id={item.id} area={item.area} />]}
               style={{background: item.resolved ?  '#66cc00' : '#ff6666', margin: '10px', borderRadius: '5px'}}
             >
             <List.Item.Meta
@@ -74,14 +75,17 @@ export default AdminList;
 
 interface FormButtomProps {
   btnMessage: string;
+  id: number,
+  area: any
 }
 
 // antd async close modal
-const FormButton: React.FC<FormButtomProps> = ({ btnMessage }) => {
+const FormButton: React.FC<FormButtomProps> = ({ btnMessage, id, area }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
   const [comment, setComment] = useState('');
+  const user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
 
   const showModal = () => {
     setOpen(true);
@@ -89,7 +93,13 @@ const FormButton: React.FC<FormButtomProps> = ({ btnMessage }) => {
 
   const handleOk = () => {
     setConfirmLoading(true);
-    console.log(comment);
+    const data = {
+      id,
+      author: user.login,
+      message: comment,
+      area
+    }
+    dispatch(addComment(data));
     setTimeout(() => {
       setOpen(false);
       setComment('');
@@ -98,7 +108,6 @@ const FormButton: React.FC<FormButtomProps> = ({ btnMessage }) => {
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setOpen(false);
   };
 

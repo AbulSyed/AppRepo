@@ -24,6 +24,24 @@ Users can login using their GitHub account to share, find & discover code reposi
                                      |--------------|
 ```
 
+### How to run
+
+Ensure ports: 3306, 8761, 2222, 8080, 8081, 8082, 3000 are available.
+
+1. Build the API JAR files
+
+```
+chmod +x ./mavenbuild.sh (makes the shell script executable)
+
+./mavenbuild.sh
+```
+
+2. Use Docker to run
+
+```
+docker compose up
+```
+
 ### Technologies
 
 #### UI

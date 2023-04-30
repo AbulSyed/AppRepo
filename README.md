@@ -8,22 +8,6 @@ Users can login using their GitHub account to share, find & discover code reposi
 
 [<img src="./thumbnail.png" width=500/>](https://www.youtube.com/watch?v=AVo0glmsXNE)
 
-### Architecture overview
-
-```
-                                     |----------|     |--------------|
-                               |-----| AUTH API |-----| GITHUB OAUTH |
-                               |     |----------|     |--------------|
-                               |
-|--------|     |---------|     |     |----------|
-| Client |-----| GATEWAY |-----|-----| REPO API |
-|--------|     |---------|     |     |----------|
-                               |
-                               |     |--------------|
-                               |-----| FEEDBACK API |
-                                     |--------------|
-```
-
 ### How to run
 
 Ensure ports: 3306, 8761, 2222, 8080, 8081, 8082, 3000 are available.
@@ -40,6 +24,22 @@ chmod +x ./mavenbuild.sh (makes the shell script executable)
 
 ```
 docker compose up
+```
+
+### Architecture overview
+
+```
+                                     |----------|     |--------------|
+                               |-----| AUTH API |-----| GITHUB OAUTH |
+                               |     |----------|     |--------------|
+                               |
+|--------|     |---------|     |     |----------|
+| Client |-----| GATEWAY |-----|-----| REPO API |
+|--------|     |---------|     |     |----------|
+                               |
+                               |     |--------------|
+                               |-----| FEEDBACK API |
+                                     |--------------|
 ```
 
 ### Technologies

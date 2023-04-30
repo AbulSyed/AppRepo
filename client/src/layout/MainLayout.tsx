@@ -24,6 +24,10 @@ import { fetchSharedRepos, fetchStarredRepos } from '../store/repo/repoSlice';
 import Feedback from '../pages/Feedback/Feedback';
 import Admin from '../pages/Admin/Admin';
 import { getFeedback } from "../store/feedback/feedbackSlice";
+import Api from '../pages/CategoryPages/Api';
+import Iac from '../pages/CategoryPages/Iac';
+import Script from '../pages/CategoryPages/Script';
+import Function from '../pages/CategoryPages/Function';
 
 const { Header, Content, Sider } = Layout;
 
@@ -162,6 +166,10 @@ const MainLayout: React.FC = () => {
             <Route path="/" element={token ? <Home /> : <Navigate to="/auth" />} />
             {/* CATEGORY PAGES */}
             <Route path="/uit" element={token ? <Uit /> : <Navigate to="/auth" />} />
+            <Route path="/api" element={token ? <Api /> : <Navigate to="/auth" />} />
+            <Route path="/iac" element={token ? <Iac /> : <Navigate to="/auth" />} />
+            <Route path="/scripts" element={token ? <Script /> : <Navigate to="/auth" />} />
+            <Route path="/functions" element={token ? <Function /> : <Navigate to="/auth" />} />
             {/* CATEGORY PAGES */}
             <Route path="/myrepos" element={token ? <MyRepos /> : <Navigate to="/auth" />} />
             <Route path="/favourites" element={token ? <Favourites /> : <Navigate to="/auth" />} />

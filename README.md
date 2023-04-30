@@ -2,7 +2,11 @@
 
 ### Purpose
 
-Users can login using their GitHub account to share, find & discover repositories.
+Users can login using their GitHub account to share, find & discover code repositories.
+
+### Demo
+
+[<img src="./thumbnail.png" width=500/>](https://www.youtube.com/watch?v=AVo0glmsXNE)
 
 ### Architecture overview
 

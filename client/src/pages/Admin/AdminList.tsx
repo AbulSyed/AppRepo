@@ -1,4 +1,5 @@
-import { Avatar, List } from 'antd';
+import { useState } from 'react';
+import { Avatar, List, Button, Modal, Form, Input } from 'antd';
 import { format, parseISO } from 'date-fns';
 import {
   ExclamationOutlined,
@@ -39,7 +40,7 @@ const AdminList: React.FC<AdminListProps> = ({ data }) => {
       renderItem={(item, index) => (
         <>
           <List.Item
-              actions={item.resolved ? [<CheckOutlined />] : [<ExclamationOutlined />]}
+              actions={item.resolved ? [<CheckOutlined />, <FormButton btnMessage="Add comment" />] : [<ExclamationOutlined />, <button>Add comment</button>]}
               style={{background: item.resolved ?  '#66cc00' : '#ff6666', margin: '10px', borderRadius: '5px'}}
             >
             <List.Item.Meta
@@ -70,3 +71,79 @@ const AdminList: React.FC<AdminListProps> = ({ data }) => {
 };
 
 export default AdminList;
+
+interface FormButtomProps {
+  btnMessage: string;
+}
+
+// antd async close modal
+const FormButton: React.FC<FormButtomProps> = ({ btnMessage }) => {
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Content of the modal');
+  const [comment, setComment] = useState('');
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    console.log(comment);
+    setTimeout(() => {
+      setOpen(false);
+      setComment('');
+      setConfirmLoading(false);
+    }, 1000);
+  };
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button');
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button type="primary" onClick={showModal}>
+        {btnMessage}
+      </Button>
+      <Modal
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <CustomForm comment={comment} setComment={setComment} />
+      </Modal>
+    </>
+  )
+}
+
+type LayoutType = Parameters<typeof Form>[0]['layout'];
+
+const CustomForm: React.FC = ({ comment, setComment }) => {
+  const [form] = Form.useForm();
+  const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
+
+  const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
+    setFormLayout(layout);
+  };
+
+  const formItemLayout =
+    formLayout === 'horizontal' ? { labelCol: { span: 4 }, wrapperCol: { span: 14 } } : null;
+
+  return (
+    <Form
+      {...formItemLayout}
+      layout={formLayout}
+      form={form}
+      initialValues={{ layout: formLayout }}
+      onValuesChange={onFormLayoutChange}
+      style={{ maxWidth: 600 }}
+    >
+      <Form.Item label="Comment">
+        <Input placeholder="Add comment message..." value={comment} onChange={e => setComment(e.target.value)} />
+      </Form.Item>
+    </Form>
+  );
+}

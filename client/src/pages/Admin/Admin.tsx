@@ -18,11 +18,13 @@ const Admin: React.FC = () => {
 
       <Divider />
 
-      <h1>ISSUE</h1>
+      {(feedback.ISSUE && feedback['ISSUE'].length > 0) && <h1>ISSUE</h1>}
       {(feedback.ISSUE && feedback['ISSUE'].length > 0) && <AdminList data={feedback['ISSUE']} />}
-      <h1>SUGGESTION</h1>
+
+      {(feedback.SUGGESTION && feedback['SUGGESTION'].length > 0) && <h1>SUGGESTION</h1>}
       {(feedback.SUGGESTION && feedback['SUGGESTION'].length > 0) && <AdminList data={feedback['SUGGESTION']} />}
-      <h1>OTHER</h1>
+
+      {(feedback.OTHER && feedback['OTHER'].length > 0) && <h1>OTHER</h1>}
       {(feedback.OTHER && feedback['OTHER'].length > 0) && <AdminList data={feedback['OTHER']} />}
 
       {/* <h1>ISSUE</h1>

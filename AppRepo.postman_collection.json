@@ -1,0 +1,715 @@
+{
+	"info": {
+		"_postman_id": "c5671cfe-fea5-4135-ba82-4e913805985d",
+		"name": "AppRepo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GitHub API",
+			"item": [
+				{
+					"name": "get user from GitHub API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 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",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://api.github.com/user",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user repos from GitHub API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/users/AbulSyed/repos",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"users",
+								"AbulSyed",
+								"repos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Spring API",
+			"item": [
+				{
+					"name": "auth service",
+					"item": [
+						{
+							"name": "get user via Spring API",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/getUser/AbulSyed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"getUser",
+										"AbulSyed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user via Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"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\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/getUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"getUser"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "repo service",
+					"item": [
+						{
+							"name": "get user repos from Spring API",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "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",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "localhost:8081/getRepos/AbulSyed",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"getRepos",
+										"AbulSyed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "share repo from Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"x\",\n    \"description\": \"desc\",\n    \"html_url\": \"htmlurl\",\n    \"language\": \"lang\",\n    \"clone_url\": \"clone\",\n    \"category\": \"UIT\",\n    \"tech\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8081/shareRepo",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"shareRepo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get shared repos from Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AbulSyed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/getSharedRepos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"getSharedRepos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "star a Repo from Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"starredBy\": \"AbulSyed\",\n    \"repoId\": 58\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/starRepo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"starRepo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get starred repos from Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AbulSyed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/getStarredRepos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"getStarredRepos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "feedback service",
+					"item": [
+						{
+							"name": "post feedback via Spring API",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"area\": \"ISSUE\", \n    \"message\": \"cant \",\n    \"author\": \"AbulSyed\",\n    \"authorImg\": \"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/robert-pattinson-as-batman-bruce-wayne-in-the-batman-1645186686.jpeg?crop=0.607xw:0.911xh;0.318xw,0.0102xh&resize=640:*\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/shareFeedback",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"shareFeedback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get feedback via Spring API",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8082/getFeedback",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"getFeedback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add comment to feedback",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"author\": \"ben\",\n    \"message\": \"happy to close now, further investigations complete\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/addComment/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"addComment",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update feedback via Spring API Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resolved\": \"false\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/feedback/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"feedback",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "auth service",
+					"item": [
+						{
+							"name": "get user via gateway",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer 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",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/authservice/getUser/AbulSyed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"authservice",
+										"getUser",
+										"AbulSyed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user via gateway",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer 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",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"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\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/authservice/getUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"authservice",
+										"getUser"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "repo service",
+					"item": [
+						{
+							"name": "get user repos via gateway",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "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",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/reposervice/getRepos/AbulSyed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"reposervice",
+										"getRepos",
+										"AbulSyed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "share repo via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"test\",\n    \"description\": \"desc\",\n    \"html_url\": \"htmlurl\",\n    \"language\": \"lang\",\n    \"clone_url\": \"clone\",\n    \"category\": \"UIT\",\n    \"tech\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/reposervice/shareRepo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"reposervice",
+										"shareRepo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get shared repos via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AbulSyed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/reposervice/getSharedRepos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"reposervice",
+										"getSharedRepos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "star a Repo via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"starredBy\": \"AbulSyed\",\n    \"repoId\": 46\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/reposervice/starRepo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"reposervice",
+										"starRepo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get starred repos via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AbulSyed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/reposervice/getStarredRepos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"reposervice",
+										"getStarredRepos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "feedback service",
+					"item": [
+						{
+							"name": "post feedback via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"area\": \"ISSUE\", \n    \"message\": \"cant \",\n    \"author\": \"AbulSyed\",\n    \"authorImg\": \"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/robert-pattinson-as-batman-bruce-wayne-in-the-batman-1645186686.jpeg?crop=0.607xw:0.911xh;0.318xw,0.0102xh&resize=640:*\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/feedbackservice/shareFeedback",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"feedbackservice",
+										"shareFeedback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get feedback via gateway",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/feedbackservice/getFeedback",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"feedbackservice",
+										"getFeedback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add comment to feedback via gateway",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"author\": \"abul\",\n    \"message\": \"issue resolved, can close now\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/feedbackservice/addComment/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"feedbackservice",
+										"addComment",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update feedback via gateway",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resolved\": \"false\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:2222/API_GATEWAY/feedbackservice/feedback/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "2222",
+									"path": [
+										"API_GATEWAY",
+										"feedbackservice",
+										"feedback",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

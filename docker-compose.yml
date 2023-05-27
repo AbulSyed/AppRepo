@@ -2,7 +2,6 @@ version: "3"
 
 services:
   mysql-service:
-    image: app-repo/mysql_db:latest
     build: ./mysql
     container_name: mysql-service
     ports:
@@ -10,7 +9,6 @@ services:
     restart: always
 
   eureka-server:
-    image: app-repo/eureka-server:latest
     build: ./eureka-server
     container_name: eureka-server
     ports:
@@ -18,7 +16,6 @@ services:
     restart: always
 
   gateway-server:
-    image: app-repo/gateway-server:latest
     build: ./gateway-server
     container_name: gateway-server
     ports:
@@ -30,7 +27,6 @@ services:
     restart: always
 
   auth-service:
-    image: app-repo/auth-service:latest
     build: ./auth-service
     container_name: auth-service
     ports:
@@ -47,7 +43,6 @@ services:
     restart: always
 
   repo-service:
-    image: app-repo/repo-service:latest
     build: ./repo-service
     container_name: repo-service
     ports:
@@ -64,7 +59,6 @@ services:
     restart: always
 
   feedback-service:
-    image: app-repo/feedback-service:latest
     build: ./feedback-service
     container_name: feedback-service
     ports:
@@ -81,7 +75,6 @@ services:
     restart: always
 
   client-app:
-    image: app-repo/client-react-app
     build: ./client
     container_name: client-app
     ports:

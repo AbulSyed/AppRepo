@@ -1,7 +1,11 @@
-FROM openjdk:8
+FROM maven:3.6.3-jdk-11-slim
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
+RUN mvn clean package -DskipTests
 
-MAINTAINER abulsyed
-
-COPY target/*.jar auth-service.jar
-
-ENTRYPOINT ["java","-jar","auth-service.jar"]
+FROM openjdk:11-jre-slim
+RUN mkdir /app
+COPY ./target/*.jar /app/auth-service.jar
+WORKDIR /app
+CMD "java" "-jar" "auth-service.jar"

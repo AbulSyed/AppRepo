@@ -1,7 +1,11 @@
-FROM openjdk:8
+FROM maven:3.6.3-jdk-11-slim
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
+RUN mvn clean package -DskipTests
 
-MAINTAINER abulsyed
-
-COPY target/*.jar eureka-server.jar
-
-ENTRYPOINT ["java","-jar","eureka-server.jar"]
+FROM openjdk:11-jre-slim
+RUN mkdir /app
+COPY ./target/*.jar /app/eureka-server.jar
+WORKDIR /app
+CMD "java" "-jar" "eureka-server.jar"

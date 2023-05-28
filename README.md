@@ -12,15 +12,7 @@ Users can login using their GitHub account to share, find & discover code reposi
 
 Ensure ports: 2222, 3000, 3306, 8761, 8080, 8081, 8082 are available.
 
-1. Build the API JAR files
-
-```
-chmod +x ./mavenbuild.sh (makes the shell script executable)
-
-./mavenbuild.sh
-```
-
-2. Use Docker to run
+1. Start the application using Docker Compose
 
 ```
 docker compose up

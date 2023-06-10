@@ -8,22 +8,22 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @Column(name = "github_url")
+    @Column(name = "github_url", nullable = false)
     private String githubUrl;
 
-    @Column(name = "repo_url")
+    @Column(name = "repo_url", nullable = false)
     private String repoUrl;
 
-    @Column(name = "token")
+    @Column(name = "token", nullable = false)
     private String token;
 
     @Column(name = "is_admin")

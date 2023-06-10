@@ -1,27 +1,38 @@
 package com.syed.authservice.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class User {
+@Table(name = "user")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "avatar_url")
     private String avatarUrl;
+
+    @Column(name = "github_url")
     private String githubUrl;
+
+    @Column(name = "repo_url")
     private String repoUrl;
+
+    @Column(name = "token")
     private String token;
+
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(Long id, String username, String avatarUrl, String githubUrl, String repoUrl, String token, boolean isAdmin) {
+    public UserEntity(Long id, String username, String avatarUrl, String githubUrl, String repoUrl, String token, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.avatarUrl = avatarUrl;

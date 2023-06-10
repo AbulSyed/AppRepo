@@ -1,7 +1,7 @@
 package com.syed.authservice.service.impl;
 
 import com.syed.authservice.dto.UserDto;
-import com.syed.authservice.entity.User;
+import com.syed.authservice.entity.UserEntity;
 import com.syed.authservice.exception.NotFoundException;
 import com.syed.authservice.repository.UserRepository;
 import com.syed.authservice.service.UserService;
@@ -61,15 +61,15 @@ public class UserServiceImpl implements UserService {
     private void saveUser(UserDto userDto, String accessToken) {
         LOGGER.info("Entering UserServiceImpl:saveUser");
 
-        User user = new User();
-        user.setUsername(userDto.getLogin());
-        user.setAvatarUrl(userDto.getAvatar_url());
-        user.setGithubUrl(userDto.getHtml_url());
-        user.setRepoUrl(userDto.getRepos_url());
-        user.setToken(accessToken);
-        user.setAdmin(false);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userDto.getLogin());
+        userEntity.setAvatarUrl(userDto.getAvatar_url());
+        userEntity.setGithubUrl(userDto.getHtml_url());
+        userEntity.setRepoUrl(userDto.getRepos_url());
+        userEntity.setToken(accessToken);
+        userEntity.setAdmin(false);
 
-        userRepository.save(user);
+        userRepository.save(userEntity);
     }
 
     /**
@@ -81,10 +81,10 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Entering UserServiceImpl:updateUserToken");
 
         // find user by username and update his token
-        User user = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
 
-        user.setToken(accessToken);
-        userRepository.save(user);
+        userEntity.setToken(accessToken);
+        userRepository.save(userEntity);
     }
 
     /**
@@ -96,13 +96,13 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByUsername(String username) {
         LOGGER.info("Entering UserServiceImpl:getUserByUsername");
 
-        User user = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
 
-        if (user == null) {
+        if (userEntity == null) {
             throw new NotFoundException("Invalid GitHub username");
         }
 
-        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl(), user.isAdmin());
+        return new UserDto(userEntity.getUsername(), userEntity.getAvatarUrl(), userEntity.getGithubUrl(), userEntity.getRepoUrl(), userEntity.isAdmin());
     }
 
     /**
@@ -114,11 +114,11 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByToken(String token) {
         LOGGER.info("Entering UserServiceImpl:getUserByToken");
 
-        User user = userRepository.findByToken(token);
+        UserEntity userEntity = userRepository.findByToken(token);
 
-        if (user == null) {
+        if (userEntity == null) {
             throw new NotFoundException("Token not associated with any user");
         }
-        return new UserDto(user.getUsername(), user.getAvatarUrl(), user.getGithubUrl(), user.getRepoUrl(), user.isAdmin());
+        return new UserDto(userEntity.getUsername(), userEntity.getAvatarUrl(), userEntity.getGithubUrl(), userEntity.getRepoUrl(), userEntity.isAdmin());
     }
 }

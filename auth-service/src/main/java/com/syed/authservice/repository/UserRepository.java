@@ -1,11 +1,11 @@
 package com.syed.authservice.repository;
 
-import com.syed.authservice.entity.User;
+import com.syed.authservice.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Boolean existsByUsername(String username);
-    User findByUsername(String username);
-    User findByToken(String token);
+    UserEntity findByUsername(String username);
+    UserEntity findByToken(String token);
 }

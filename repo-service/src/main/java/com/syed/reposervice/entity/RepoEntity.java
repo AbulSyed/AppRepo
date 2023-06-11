@@ -6,30 +6,48 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Repo {
+@Table(name = "repo")
+public class RepoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "html_url", nullable = false)
     private String htmlUrl;
+
+    @Column(name = "language")
     private String language;
+
+    @Column(name = "clone_url", nullable = false)
     private String cloneUrl;
+
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private CategoryEnum category;
     // @ElementCollection annotation indicates that the tech field is a
     // collection of simple values that should be stored in a separate table.
     // JPA will create a new table to store the tech values associated with each Repo entity.
     // The new table will have a foreign key to the Repo table.
     @ElementCollection
+    @CollectionTable(name = "repo_tech", joinColumns = @JoinColumn(name = "repo_id"))
+    @Column(name = "tech")
     private Set<String> tech;
-    @OneToMany(mappedBy = "repo", cascade = CascadeType.ALL)
-    private Set<StarredRepo> starredRepo;
 
-    public Repo() {
+    @OneToMany(mappedBy = "repo", cascade = CascadeType.ALL)
+    private Set<StarredRepoEntity> starredRepoEntity;
+
+    public RepoEntity() {
     }
 
-    public Repo(Long id, String name, String description, String htmlUrl, String language, String cloneUrl, CategoryEnum category, Set<String> tech, Set<StarredRepo> starredRepo) {
+    public RepoEntity(Long id, String name, String description, String htmlUrl, String language, String cloneUrl, CategoryEnum category, Set<String> tech, Set<StarredRepoEntity> starredRepoEntity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,7 +56,7 @@ public class Repo {
         this.cloneUrl = cloneUrl;
         this.category = category;
         this.tech = tech;
-        this.starredRepo = starredRepo;
+        this.starredRepoEntity = starredRepoEntity;
     }
 
     public Long getId() {
@@ -105,12 +123,12 @@ public class Repo {
         this.tech = tech;
     }
 
-    public Set<StarredRepo> getStarredRepo() {
-        return starredRepo;
+    public Set<StarredRepoEntity> getStarredRepo() {
+        return starredRepoEntity;
     }
 
-    public void setStarredRepo(Set<StarredRepo> starredRepo) {
-        this.starredRepo = starredRepo;
+    public void setStarredRepo(Set<StarredRepoEntity> starredRepoEntity) {
+        this.starredRepoEntity = starredRepoEntity;
     }
 
 //    @Override

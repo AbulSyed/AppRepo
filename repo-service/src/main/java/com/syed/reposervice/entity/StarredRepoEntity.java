@@ -3,20 +3,25 @@ package com.syed.reposervice.entity;
 import javax.persistence.*;
 
 @Entity
-public class StarredRepo {
+@Table(name = "starred_repo")
+public class StarredRepoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "starred_by")
     private String starredBy;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repo_id")
-    private Repo repo;
+    private RepoEntity repo;
 
-    public StarredRepo() {
+    public StarredRepoEntity() {
     }
 
-    public StarredRepo(Long id, String starredBy, Repo repo) {
+    public StarredRepoEntity(Long id, String starredBy, RepoEntity repo) {
         this.id = id;
         this.starredBy = starredBy;
         this.repo = repo;
@@ -38,17 +43,17 @@ public class StarredRepo {
         this.starredBy = starredBy;
     }
 
-    public Repo getRepo() {
+    public RepoEntity getRepo() {
         return repo;
     }
 
-    public void setRepo(Repo repo) {
+    public void setRepo(RepoEntity repo) {
         this.repo = repo;
     }
 
     @Override
     public String toString() {
-        return "StarredRepo{" +
+        return "StarredRepoEntity{" +
                 "id=" + id +
                 ", starredBy='" + starredBy + '\'' +
                 ", repo=" + repo +

@@ -1,8 +1,8 @@
 package com.syed.reposervice.service.impl;
 
 import com.syed.reposervice.dto.StarredRepoDto;
-import com.syed.reposervice.entity.Repo;
-import com.syed.reposervice.entity.StarredRepo;
+import com.syed.reposervice.entity.RepoEntity;
+import com.syed.reposervice.entity.StarredRepoEntity;
 import com.syed.reposervice.exception.NotFoundException;
 import com.syed.reposervice.repository.RepoRepository;
 import com.syed.reposervice.repository.StarRepository;
@@ -34,7 +34,7 @@ public class StarServiceImpl implements StarService {
         LOGGER.info("Entering StarServiceImpl:starRepo");
 
         // check if repo exists
-        Repo repo = repoRepository.findById(starredRepoDto.getRepoId()).orElseThrow(
+        RepoEntity repo = repoRepository.findById(starredRepoDto.getRepoId()).orElseThrow(
                 () -> new NotFoundException("Repository with id " + starredRepoDto.getRepoId() + " not found.")
         );
 
@@ -43,7 +43,7 @@ public class StarServiceImpl implements StarService {
 
         if (!exists) {
             LOGGER.info("Repo not starred yet - need to star");
-            StarredRepo starredRepo = new StarredRepo();
+            StarredRepoEntity starredRepo = new StarredRepoEntity();
             starredRepo.setRepo(repo);
             starredRepo.setStarredBy(starredRepoDto.getStarredBy());
 

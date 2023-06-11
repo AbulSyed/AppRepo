@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syed.reposervice.dto.RepoDto;
 import com.syed.reposervice.dto.UserRepo;
 import com.syed.reposervice.dto.UsernameDto;
-import com.syed.reposervice.entity.Repo;
+import com.syed.reposervice.entity.RepoEntity;
 import com.syed.reposervice.exception.InternalServerErrorException;
 import com.syed.reposervice.exception.NotFoundException;
 import com.syed.reposervice.repository.RepoRepository;
@@ -79,7 +79,7 @@ public class RepoServiceImpl implements RepoService {
     public RepoDto shareRepo(RepoDto repoDto) {
         LOGGER.info("Entering RepoServiceImpl:shareRepo");
 
-        Repo repo = new Repo();
+        RepoEntity repo = new RepoEntity();
         repo.setName(repoDto.getName());
         repo.setDescription(repoDto.getDescription());
         repo.setHtmlUrl(repoDto.getHtml_url());
@@ -102,10 +102,10 @@ public class RepoServiceImpl implements RepoService {
     public List<RepoDto> getSharedRepos(UsernameDto usernameDto) {
         LOGGER.info("Entering RepoServiceImpl:getSharedRepos");
 
-        List<Repo> repos = repoRepository.findAll();
+        List<RepoEntity> repos = repoRepository.findAll();
         List<RepoDto> repoDtos = new ArrayList<>();
 
-        for (Repo repo : repos) {
+        for (RepoEntity repo : repos) {
 //            boolean isStarred = false;
 //            for (StarredRepo starredRepo : repo.getStarredRepo()) {
 //                if (starredRepo.getStarredBy().equals(username)) {

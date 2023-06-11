@@ -7,16 +7,29 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "feedback")
 public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Enumerated
     private AreaEnum area;
+
+    @Column(name = "message", nullable = false)
     private String message;
+
+    @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "author_img")
     private String authorImg;
+
+    @Column(name = "resolved")
     private boolean resolved;
+
     @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL)
     private List<Comment> comments;
     private LocalDateTime dateTime;

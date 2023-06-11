@@ -6,17 +6,26 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "message", nullable = false)
     private String message;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "feedback_id")
     @JsonIgnore
     private Feedback feedback;
+
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     public Comment() {

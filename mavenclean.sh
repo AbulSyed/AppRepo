@@ -1,4 +1,4 @@
-#chmod +x ./maven-clean.sh - to make executable
+#chmod +x ./mavenclean.sh - to make executable
 echo "clean auth-service"
 cd ./auth-service
 mvn clean

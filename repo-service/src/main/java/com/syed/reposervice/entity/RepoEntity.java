@@ -32,6 +32,7 @@ public class RepoEntity {
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private CategoryEnum category;
+    
     // @ElementCollection annotation indicates that the tech field is a
     // collection of simple values that should be stored in a separate table.
     // JPA will create a new table to store the tech values associated with each Repo entity.

@@ -1,11 +1,12 @@
-FROM maven:3.6.3-jdk-11-slim
-RUN mkdir /app
+FROM maven:3.6.3-jdk-11-slim AS build
 WORKDIR /app
-COPY . /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM openjdk:11-jre-slim
-RUN mkdir /app
-COPY ./target/*.jar /app/auth-service.jar
 WORKDIR /app
-CMD "java" "-jar" "auth-service.jar"
+COPY --from=build /app/target/*.jar ./auth-service.jar
+CMD ["java", "-jar", "auth-service.jar"]

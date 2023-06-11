@@ -1,11 +1,12 @@
-FROM maven:3.6.3-jdk-11-slim
-RUN mkdir /app
+FROM maven:3.6.3-jdk-11-slim AS build
 WORKDIR /app
-COPY . /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM openjdk:11-jre-slim
-RUN mkdir /app
-COPY ./target/*.jar /app/gateway-server.jar
 WORKDIR /app
-CMD "java" "-jar" "gateway-server.jar"
+COPY --from=build /app/target/*.jar ./gateway-server.jar
+CMD ["java", "-jar", "gateway-server.jar"]
